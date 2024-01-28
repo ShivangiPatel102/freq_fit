@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(width: 5.0,),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, route)                    },
+                      Navigator.pushNamed(context, '/register') ;                   },
                     child: const Text('Register!!',style: TextStyle(fontWeight: FontWeight.w700),),
                   ),
                 ],
