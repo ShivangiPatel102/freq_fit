@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+class Login extends StatelessWidget {
+  const Login({super.key});
+  final TextStyle small = const TextStyle(fontWeight: FontWeight.w100,fontFamily: 'Blinker',fontSize: 20);
+  final TextStyle large = const TextStyle(fontFamily: 'Blinker', fontWeight: FontWeight.w600, fontSize: 50, color: Color.fromRGBO(40, 51, 74,1),);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,27 +19,22 @@ class HomeScreen extends StatelessWidget {
                   Image.asset('assets/icons/appIcon.png',height:70,),
                 ],
               ),
-              const Text('Welcome', style: TextStyle(
-                fontFamily: 'Blinker',
-                fontWeight: FontWeight.w600,
-                fontSize: 50,
-                color: Color.fromRGBO(40, 51, 74,1),
-              ),),
-              const Text('Back', style: TextStyle(
-                fontFamily: 'Blinker',
-                fontWeight: FontWeight.w600,
-                fontSize: 50,
-                color: Color.fromRGBO(40, 51, 74,1),
-              ),),
+               Text('Welcome', style: large),
+
+               Text('Back', style: large),
+
               const SizedBox(height: 30.0,),
-              const Padding(
+
+                Padding(
                 padding: const EdgeInsets.only(right: 15.0),
-                child: const TextField(decoration: InputDecoration(hintText: 'Username or e-mail',hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w200), ),),
+                child:  TextField(decoration: InputDecoration(hintText: 'Username or e-mail',hintStyle: small ),),
               ),
+
               const SizedBox(height: 30.0,),
-              const Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: const TextField(decoration: InputDecoration(hintText: 'Password',hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w200), ),),
+
+                Padding(
+                padding:  const EdgeInsets.only(right: 15.0),
+                child:  TextField(decoration: InputDecoration(hintText: 'Password',hintStyle: small ),),
               ),
 
                Row(
@@ -54,8 +50,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 25.0,),
+
               GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/home') ;
+                },
                 child: Container(
                   height: 38,
                   padding: const EdgeInsetsDirectional.only(),
@@ -64,17 +65,21 @@ class HomeScreen extends StatelessWidget {
                   child: const Center(child: Text('Login',style: TextStyle(fontFamily: 'Blinker',fontSize: 20,color: Colors.white,fontWeight: FontWeight.w700))),
                 ),
               ),
+
               const SizedBox(height: 30.0,),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an Account?",style: TextStyle(fontFamily: 'Blinker',fontSize: 15.0,fontWeight: FontWeight.normal),),
-                  SizedBox(width: 5.0,),
+                   Text("Don't have an Account?",style: small),
+                  const SizedBox(width: 5.0,),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/register') ;                   },
                     child: const Text('Register!!',style: TextStyle(fontWeight: FontWeight.w700),),
                   ),
+
+
                 ],
               )
 

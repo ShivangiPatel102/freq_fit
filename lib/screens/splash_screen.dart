@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:freq_fit/screens/HomeScreen.dart';
+import 'package:freq_fit/screens/login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,8 +15,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     
-    Future.delayed(Duration(seconds: 2), (){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>  HomeScreen(),),);
+    Future.delayed(const Duration(seconds: 2), (){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> const Login(),),);
     });
   }
   

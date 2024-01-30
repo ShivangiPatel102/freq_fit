@@ -58,10 +58,17 @@ flutter:
     - family: Blinker
       fonts:
         - asset: assets/fonts/Blinker-Black.ttf
+        - asset: assets/fonts/Blinker-Regular.ttf
+          weight: 400
         - asset: assets/fonts/Blinker-Bold.ttf
           weight: 700
         - asset: assets/fonts/Blinker-Light.ttf
           weight: 100
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik-Black.ttf
+        - asset: assets/fonts/Rubik-Medium.ttf
+          weight: 400
 
 
   # The following line ensures that the Material Icons font is
