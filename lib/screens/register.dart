@@ -43,8 +43,8 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: 10.0,),
 
             const Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: const TextField(decoration: InputDecoration(hintText: 'Hospital / Clinic name ',hintStyle: TextStyle(fontWeight: FontWeight.w100,fontFamily: 'Blinker',fontSize: 20,), ),),
+              padding:  EdgeInsets.only(right: 10.0),
+              child:  TextField(decoration: InputDecoration(hintText: 'Hospital / Clinic name ',hintStyle: TextStyle(fontWeight: FontWeight.w100,fontFamily: 'Blinker',fontSize: 20,), ),),
             ),
 
             const SizedBox(height: 10.0,),
@@ -70,7 +70,7 @@ class RegisterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Have an Account?",style: TextStyle(fontFamily: 'Blinker',fontSize: 15.0,fontWeight: FontWeight.normal),),
-                SizedBox(width: 5.0,),
+                const SizedBox(width: 5.0,),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/login') ;                   },

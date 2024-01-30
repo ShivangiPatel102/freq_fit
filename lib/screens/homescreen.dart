@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget  {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home_outlined),
+              leading: Image.asset('assets/icons/home.png',height: 20.0),
               title: const Text('Home'),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget  {
             ),
 
             ListTile(
-              leading: const Icon(Icons.checklist_outlined),
+              leading: Image.asset('assets/icons/checklist.png',height: 19.0),
               title: const Text('Trial Test'),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget  {
             ),
 
             ListTile(
-              leading: const Icon(Icons.health_and_safety_outlined),
+              leading: Image.asset('assets/icons/pta.png',height: 20.0),
               title: const Text('PTA Test'),
               onTap: () {
                 Navigator.pushNamed(context, '/ptaTest');
@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget  {
             ),
 
             ListTile(
-              leading: const Icon(Icons.help_outline_outlined),
+              leading: Image.asset('assets/icons/books.png',height: 20.0),
               title: const Text('Tutorials'),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget  {
             ),
 
             ListTile(
-              leading: const Icon(Icons.history),
+              leading: Image.asset('assets/icons/notepad.png',height: 20.0,),
               title: const Text('History'),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget  {
             ),
 
             ListTile(
-              leading: const Icon(Icons.tag_faces_rounded),
+              leading: Image.asset('assets/icons/profile.png',height: 20.0,),
               title: const Text('Profile'),
               onTap: () {
                 Navigator.pushNamed(context, '/home');

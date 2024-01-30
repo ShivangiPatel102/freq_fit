@@ -11,9 +11,8 @@ class PtaTest extends StatelessWidget {
         backgroundColor: Colors.orange,
         title: const Text('PTA Test'),
       ),
-      body: Container(
-
-        padding: const EdgeInsets.only(left: 35.0,right: 35.0),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -45,7 +44,6 @@ class PtaTest extends StatelessWidget {
               },
               child: Container(
                 height: 38,
-                padding: const EdgeInsetsDirectional.only(),
                 width: MediaQuery.of(context).size.width,
                 color: const Color.fromRGBO(40, 51, 74, 1),
                 child: const Center(child: Text('Register',style: TextStyle(fontFamily: 'Blinker',fontSize: 20,color: Colors.white,fontWeight: FontWeight.w700))),
@@ -55,10 +53,10 @@ class PtaTest extends StatelessWidget {
             const SizedBox(height: 35.0,),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SmallCard(imagePath: 'assets/icons/puretone.png', text: 'Pure Tone', onTap: (){}),
-                SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){}),
+                //SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){}),
               ],
             )
 
