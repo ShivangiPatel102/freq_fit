@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PtaTest extends StatelessWidget {
-  const PtaTest({super.key});
+class PtaTestScreen extends StatelessWidget {
+  const PtaTestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
