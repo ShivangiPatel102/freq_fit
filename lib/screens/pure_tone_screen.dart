@@ -42,7 +42,7 @@ class PureToneScreen extends StatelessWidget {
                     ],
                     activeFgColor: Colors.white,
                     inactiveBgColor: kNavyBlueColor,
-                    inactiveFgColor: Colors.white,
+                    inactiveFgColor: kNavyBlueColor,
                     initialLabelIndex: 0,
                     totalSwitches: 2,
                     labels: ['L', 'R'],
