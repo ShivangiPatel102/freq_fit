@@ -123,7 +123,9 @@ class HomeScreen extends StatelessWidget  {
                 SmallCard(
                   imagePath: 'assets/icons/books.png', // Specify the path to your image asset
                   text: 'Tutorials',
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.pushNamed(context, '/home');
+                  },
                 ),
 
                 SmallCard(
