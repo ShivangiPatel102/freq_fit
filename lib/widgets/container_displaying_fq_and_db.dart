@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freq_fit/constants.dart';
 
 class ContainerDisplayingFqAndDb extends StatelessWidget {
-  const ContainerDisplayingFqAndDb({
+  const ContainerDisplayingFqAndDb( {
     super.key,
     required this.number,
     required this.unit,
