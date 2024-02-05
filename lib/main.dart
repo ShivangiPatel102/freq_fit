@@ -7,7 +7,6 @@ import 'package:freq_fit/screens/registration_screen.dart';
 import 'package:freq_fit/screens/splash_screen.dart';
 import 'package:freq_fit/widgets/alert_check_headphone.dart';
 import 'package:freq_fit/widgets/alert_select_ear.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {

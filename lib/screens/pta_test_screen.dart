@@ -40,7 +40,7 @@ class PtaTestScreen extends StatelessWidget {
 
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/home') ;
+                Navigator.pushNamed(context, '/pureTone') ;
               },
               child: Container(
                 height: 38,

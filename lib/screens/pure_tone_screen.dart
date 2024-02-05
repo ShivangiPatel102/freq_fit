@@ -108,19 +108,29 @@ class PureToneScreen extends ConsumerWidget {
                       child: Container(
                         // padding: EdgeInsets.all(7),
 
-                            child: const Column(
+                            child:  Column(
                               children: [
                                 Expanded(
                                   flex: 3,
-                                  child: ContainerFrequenyButton(
-                                    iconData: Icons.arrow_drop_up_sharp,
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      ref.read(freqDbProvider).incrementFreq();
+                                    },
+                                    child: ContainerFrequenyButton(
+                                      iconData: Icons.arrow_drop_up_sharp,
+                                    ),
                                   ),
                                 ),
                                 Spacer(),
                                 Expanded(
                                     flex: 3,
-                                    child: ContainerFrequenyButton(
-                                      iconData: Icons.arrow_drop_down_sharp,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        ref.read(freqDbProvider).decrementFreq();
+                                      },
+                                      child: ContainerFrequenyButton(
+                                        iconData: Icons.arrow_drop_down_sharp,
+                                      ),
                                     )),
                               ],
                             ),
@@ -151,11 +161,16 @@ class PureToneScreen extends ConsumerWidget {
                                 Expanded(
                                   flex: 3,
                                   child: ReusableContainerForButtons(
-                                    containerChild: Container(
-                                      margin: const EdgeInsets.all(15),
-                                      child: const FaIcon(
-                                        FontAwesomeIcons.volumeHigh,
-                                        color: kPureWhiteColor,
+                                    containerChild: GestureDetector(
+                                      onTap: (){
+                                        ref.read(freqDbProvider).incrementDb();
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(15),
+                                        child: const FaIcon(
+                                          FontAwesomeIcons.volumeHigh,
+                                          color: kPureWhiteColor,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -164,12 +179,17 @@ class PureToneScreen extends ConsumerWidget {
                                 Expanded(
                                   flex: 3,
                                   child: ReusableContainerForButtons(
-                                    containerChild: Container(
-                                      margin: const EdgeInsets.all(19),
-                                      child: const FaIcon(
-                                        FontAwesomeIcons.volumeLow,
-                                        color: kPureWhiteColor,
-                                        // size: 25,
+                                    containerChild: GestureDetector(
+                                      onTap: (){
+                                        ref.read(freqDbProvider).decrementDb();
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(19),
+                                        child: const FaIcon(
+                                          FontAwesomeIcons.volumeLow,
+                                          color: kPureWhiteColor,
+                                          // size: 25,
+                                        ),
                                       ),
                                     ),
                                   ),
