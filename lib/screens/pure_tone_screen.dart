@@ -12,8 +12,13 @@ import 'package:freq_fit/riverpod/freqDb.dart';
 import 'package:sound_generator/sound_generator.dart';
 import 'package:sound_generator/waveTypes.dart';
 
-class PureToneScreen extends StatelessWidget {
+class PureToneScreen extends StatefulWidget {
 
+  @override
+  State<PureToneScreen> createState() => _PureToneScreenState();
+}
+
+class _PureToneScreenState extends State<PureToneScreen> {
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 20;
@@ -26,17 +31,31 @@ class PureToneScreen extends StatelessWidget {
 
 
   @override
+  void initState() {
+    super.initState();
+    isPlaying = false;
+
+    SoundGenerator.init(sampleRate);
+
+    SoundGenerator.onIsPlayingChanged.listen((value) {
+      setState(() {
+        isPlaying = value;
+      });
+    });
+
+    SoundGenerator.onOneCycleDataHandler.listen((value) {
+      setState(() {
+        oneCycleData = value;
+      });
+    });
+
+    SoundGenerator.setAutoUpdateOneCycleSample(true);
+    //Force update for one time
+    SoundGenerator.refreshOneCycleData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-  SoundGenerator.init(sampleRate);
-  SoundGenerator.setVolume(1.0);
-  SoundGenerator.setFrequency(700.0);
-  SoundGenerator.setAutoUpdateOneCycleSample(true);
-
-  SoundGenerator.refreshOneCycleData();
-  SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
-  SoundGenerator.play();
-
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -44,7 +63,7 @@ class PureToneScreen extends StatelessWidget {
         child: AppBarCustom(
           title: 'PURE TONE',
         ),
-      ), 
+      ),
       drawer: const MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -165,7 +184,8 @@ class PureToneScreen extends StatelessWidget {
                             flex: 6,
                             child: GestureDetector(
                               onTap: (){
-
+                                SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
+                                SoundGenerator.setBalance(0);
                                 SoundGenerator.setVolume(1.0);
                                 SoundGenerator.setFrequency(150.0);
                                 SoundGenerator.play();
