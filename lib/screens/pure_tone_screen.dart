@@ -22,7 +22,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 20;
-  double balance = 0;
+  int balance = 1;
   double volume = 1;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
@@ -52,6 +52,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
     SoundGenerator.setAutoUpdateOneCycleSample(true);
     //Force update for one time
     SoundGenerator.refreshOneCycleData();
+    SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
   }
 
   @override
@@ -88,12 +89,22 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     activeFgColor: Colors.white,
                     inactiveBgColor: kNavyBlueColor,
                     inactiveFgColor: kNavyBlueColor,
-                    initialLabelIndex: 0,
+                    initialLabelIndex: balance,
                     totalSwitches: 2,
                     labels: ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                      // print('switched to: $index');
+                     print('switched to: $index');
+                      setState(() {
+                        if(index==0){
+                          balance=0;
+                          SoundGenerator.setBalance(1);
+                        }
+                        else{
+                          balance=1;
+                          SoundGenerator.setBalance(-1);
+                        }
+                      });
                     },
                   ),
                 ),
@@ -118,7 +129,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                       Expanded(
                         flex: 5,
                         child: ContainerDisplayingFqAndDb(
-                          number: 100.0,
+                          number: frequency,
                           unit: 'hz',
                         ),
                       ),
@@ -126,7 +137,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                       Expanded(
                         flex: 5,
                         child: ContainerDisplayingFqAndDb(
-                          number: 10.0,
+                          number: volume,
                           unit: 'dB',
                         ),
                       ),
@@ -155,7 +166,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                   child: GestureDetector(
                                     onTap: (){
 
-                                      SoundGenerator.setFrequency(100);
+                                      setState(() {
+                                        frequency+=100;
+                                        SoundGenerator.setFrequency(frequency);
+                                      });
                                     },
                                     child: ContainerFrequenyButton(
                                       iconData: Icons.arrow_drop_up_sharp,
@@ -168,7 +182,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                     child: GestureDetector(
                                       onTap: (){
 
-                                        SoundGenerator.setFrequency(100.0);
+                                        setState(() {
+                                          frequency-=100;
+                                          SoundGenerator.setFrequency(frequency);
+                                        });
 
                                       },
                                       child: ContainerFrequenyButton(
@@ -184,11 +201,16 @@ class _PureToneScreenState extends State<PureToneScreen> {
                             flex: 6,
                             child: GestureDetector(
                               onTap: (){
-                                SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
-                                SoundGenerator.setBalance(0);
-                                SoundGenerator.setVolume(1.0);
-                                SoundGenerator.setFrequency(150.0);
+
+                                // SoundGenerator.setBalance(0);
+                                // SoundGenerator.setVolume(1.0);
+                                // SoundGenerator.setFrequency(150.0);
+                                if (!isPlaying){
                                 SoundGenerator.play();
+                                isPlaying=true;
+                                }
+                                else{SoundGenerator.stop();
+                                isPlaying=false;}
                               },
                               child: ReusableContainerForButtons(
                                 colour: kRedColor,
@@ -215,8 +237,11 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                   child: ReusableContainerForButtons(
                                     containerChild: GestureDetector(
                                       onTap: (){
+                                        setState(() {
+                                          volume+=10;
+                                          SoundGenerator.setVolume(volume);
+                                        });
 
-                                        SoundGenerator.setVolume(10.0);
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(15),
@@ -235,7 +260,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                     containerChild: GestureDetector(
                                       onTap: (){
 
-                                        SoundGenerator.setVolume(10.0);
+                                        setState(() {
+                                          volume-=10;
+                                          SoundGenerator.setVolume(volume);
+                                        });
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(19),
