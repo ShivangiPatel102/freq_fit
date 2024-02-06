@@ -9,13 +9,26 @@ import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:freq_fit/riverpod/freqDb.dart';
+import 'package:sound_generator/sound_generator.dart';
+import 'package:sound_generator/waveTypes.dart';
 
 class PureToneScreen extends ConsumerWidget {
 
   // Define variables for frequency, decibel, and other state values
+  bool isPlaying = false;
+  double frequency = 20;
+  double balance = 0;
+  double volume = 1;
+  waveTypes waveType = waveTypes.SINUSOIDAL;
+  int sampleRate = 96000;
+  List<int>? oneCycleData;
+
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
   final freqDb = ref.watch(freqDbProvider);
+  SoundGenerator.init(sampleRate);
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -115,6 +128,7 @@ class PureToneScreen extends ConsumerWidget {
                                   child: GestureDetector(
                                     onTap: (){
                                       ref.read(freqDbProvider).incrementFreq();
+                                      SoundGenerator.setFrequency(freqDb.freq);
                                     },
                                     child: ContainerFrequenyButton(
                                       iconData: Icons.arrow_drop_up_sharp,
@@ -127,6 +141,8 @@ class PureToneScreen extends ConsumerWidget {
                                     child: GestureDetector(
                                       onTap: (){
                                         ref.read(freqDbProvider).decrementFreq();
+                                        SoundGenerator.setFrequency(freqDb.freq);
+
                                       },
                                       child: ContainerFrequenyButton(
                                         iconData: Icons.arrow_drop_down_sharp,
@@ -137,20 +153,25 @@ class PureToneScreen extends ConsumerWidget {
                           ),
                         ),
                         // Stop and Start Button
-                        const Expanded(
+                        Expanded(
                             flex: 6,
-                            child: ReusableContainerForButtons(
-                              colour: kRedColor,
-                              containerChild: Text(
-                                'Stop',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: kPureWhiteColor,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold),
+                            child: GestureDetector(
+                              onTap: (){
+                                SoundGenerator.play();
+                              },
+                              child: ReusableContainerForButtons(
+                                colour: kRedColor,
+                                containerChild: Text(
+                                  'Stop',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: kPureWhiteColor,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 28, horizontal: 0),
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 28, horizontal: 0),
                             )),
                         // Decibel Buttons
                         Expanded(
@@ -164,6 +185,7 @@ class PureToneScreen extends ConsumerWidget {
                                     containerChild: GestureDetector(
                                       onTap: (){
                                         ref.read(freqDbProvider).incrementDb();
+                                        SoundGenerator.setVolume(freqDb.db);
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(15),
@@ -182,6 +204,7 @@ class PureToneScreen extends ConsumerWidget {
                                     containerChild: GestureDetector(
                                       onTap: (){
                                         ref.read(freqDbProvider).decrementDb();
+                                        SoundGenerator.setVolume(freqDb.db);
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(19),
