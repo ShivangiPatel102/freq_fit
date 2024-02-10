@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(248, 248, 248, 1),
+      //backgroundColor: const Color.fromRGBO(248, 248, 248, 1),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80), 
         child: AppBarCustom(),

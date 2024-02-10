@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
@@ -8,9 +7,11 @@ import 'package:freq_fit/widgets/container_frequency_button.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:freq_fit/riverpod/freqDb.dart';
 import 'package:sound_generator/sound_generator.dart';
 import 'package:sound_generator/waveTypes.dart';
+import 'package:freq_fit/widgets/show_Alert_Check_Headphone.dart';
+import 'package:freq_fit/widgets/show_Alert_Select_Ear.dart';
+import 'package:headset_connection_event/headset_event.dart';
 
 class PureToneScreen extends StatefulWidget {
 
@@ -19,24 +20,53 @@ class PureToneScreen extends StatefulWidget {
 }
 
 class _PureToneScreenState extends State<PureToneScreen> {
+
+  final _headsetPlugin = HeadsetEvent();
+  HeadsetState? _headsetState;
+
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 20;
-  int balance = 1;
+  int balance = 0 ;
   double volume = 1;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
   List<int>? oneCycleData;
+  String buttonText = 'Start';
 
-
+  void _checkAndShowAlert() {
+    if (_headsetState != HeadsetState.CONNECT) {
+      show_Alert_Check_Headphone(context);
+    } else if(_headsetState == HeadsetState.CONNECT) {
+         balance = show_Alert_Select_Ear(context);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    isPlaying = false;
+
+    _headsetPlugin.requestPermission();
+     _headsetPlugin.getCurrentState.then((val) {
+       setState(() {
+         _headsetState = val;
+       });
+     });
+
+    _headsetPlugin.setListener((val) {
+      setState(() {
+        _headsetState = val;
+        Navigator.pop(context);
+        _checkAndShowAlert();
+
+      });
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndShowAlert();
+    });
 
     SoundGenerator.init(sampleRate);
-
     SoundGenerator.onIsPlayingChanged.listen((value) {
       setState(() {
         isPlaying = value;
@@ -49,6 +79,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
       });
     });
 
+
     SoundGenerator.setAutoUpdateOneCycleSample(true);
     //Force update for one time
     SoundGenerator.refreshOneCycleData();
@@ -59,6 +90,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(80), // Adjust height as needed
         child: AppBarCustom(
@@ -171,12 +203,12 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                         SoundGenerator.setFrequency(frequency);
                                       });
                                     },
-                                    child: ContainerFrequenyButton(
+                                    child: const ContainerFrequenyButton(
                                       iconData: Icons.arrow_drop_up_sharp,
                                     ),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Expanded(
                                     flex: 3,
                                     child: GestureDetector(
@@ -188,7 +220,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                         });
 
                                       },
-                                      child: ContainerFrequenyButton(
+                                      child: const ContainerFrequenyButton(
                                         iconData: Icons.arrow_drop_down_sharp,
                                       ),
                                     )),
@@ -208,14 +240,16 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                 if (!isPlaying){
                                 SoundGenerator.play();
                                 isPlaying=true;
+                                buttonText = 'Stop';
                                 }
                                 else{SoundGenerator.stop();
-                                isPlaying=false;}
+                                isPlaying=false;
+                                buttonText = 'Start';}
                               },
-                              child: ReusableContainerForButtons(
+                              child:  ReusableContainerForButtons(
                                 colour: kRedColor,
                                 containerChild: Text(
-                                  'Stop',
+                                  buttonText,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: kPureWhiteColor,

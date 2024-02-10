@@ -21,11 +21,11 @@ class ReusableContainerForButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: padding ?? EdgeInsets.all(0),
-      margin: margin ?? EdgeInsets.all(0),
+      padding: padding ?? const EdgeInsets.all(0),
+      margin: margin ?? const EdgeInsets.all(0),
       decoration: BoxDecoration(
         color: colour ?? kNavyBlueColor,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(
             20,
           ),

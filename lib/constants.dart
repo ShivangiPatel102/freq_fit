@@ -13,4 +13,5 @@ const kTitleOfAppBarTextStyle = TextStyle(
   color: kNavyBlueColor,
   fontSize: 20,
   fontWeight: FontWeight.bold,
+  fontFamily: 'Blinker',
 );
