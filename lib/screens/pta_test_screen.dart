@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:freq_fit/widgets/my_drawer.dart';
+import 'package:freq_fit/widgets/app_bar.dart';
 
 class PtaTestScreen extends StatelessWidget {
   const PtaTestScreen({super.key});
@@ -6,33 +8,32 @@ class PtaTestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(248, 248, 248, 1),
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: const Text('PTA Test'),
+      //backgroundColor: const Color.fromRGBO(248, 248, 248, 1),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarCustom(title: 'PTA TEST'),
       ),
+      drawer: MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter Patient Name',
-                hintStyle: const TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0),
+                hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
+
                 ),
               ),
-            ),
 
             const SizedBox(height: 25.0,),
 
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter Patient Email',
-                hintStyle: const TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0),
-                ),
+                hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
+
               ),
             ),
 
@@ -40,7 +41,7 @@ class PtaTestScreen extends StatelessWidget {
 
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/home') ;
+                Navigator.pushNamed(context, '/pureTone') ;
               },
               child: Container(
                 height: 38,

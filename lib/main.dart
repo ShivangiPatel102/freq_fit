@@ -6,6 +6,9 @@ import 'package:freq_fit/screens/pta_test_screen.dart';
 import 'package:freq_fit/screens/pure_tone_screen.dart';
 import 'package:freq_fit/screens/registration_screen.dart';
 import 'package:freq_fit/screens/splash_screen.dart';
+import 'package:freq_fit/widgets/show_Alert_Check_Headphone.dart';
+import 'package:freq_fit/widgets/show_Alert_Select_Ear.dart';
+import 'package:headset_connection_event/headset_event.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/ptaResults',
+      initialRoute: '/',
       routes: {
+        '/': (context) => SplashScreen(),
         '/login': (context) =>  Login(),
         '/register' : (context) =>  RegisterScreen(),
         '/home' : (context) =>  HomeScreen(),

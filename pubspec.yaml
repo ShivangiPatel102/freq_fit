@@ -19,6 +19,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   toggle_switch: ^2.1.0
   font_awesome_flutter: ^10.7.0
+  sound_generator: ^0.0.9
+  headset_connection_event: ^3.1.0
+
 
 dev_dependencies:
   flutter_test:
