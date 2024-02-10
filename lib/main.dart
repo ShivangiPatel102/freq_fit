@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freq_fit/screens/home_screen.dart';
 import 'package:freq_fit/screens/login_screen.dart';
+import 'package:freq_fit/screens/pta_results_screen.dart';
 import 'package:freq_fit/screens/pta_test_screen.dart';
 import 'package:freq_fit/screens/pure_tone_screen.dart';
 import 'package:freq_fit/screens/registration_screen.dart';
@@ -18,13 +19,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/pureTone',
+      initialRoute: '/ptaResults',
       routes: {
         '/login': (context) =>  Login(),
         '/register' : (context) =>  RegisterScreen(),
         '/home' : (context) =>  HomeScreen(),
         '/ptaTest': (context) =>  PtaTestScreen(),
         '/pureTone': (context) =>  PureToneScreen(),
+        '/ptaResults': (context) =>  PtaResultsScreen(),
 
       },
     );

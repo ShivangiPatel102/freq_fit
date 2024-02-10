@@ -10,6 +10,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class PureToneScreen extends StatelessWidget {
   // Define variables for frequency, decibel, and other state values
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
