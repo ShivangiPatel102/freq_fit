@@ -38,7 +38,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
     } else if(_headsetState == HeadsetState.CONNECT) {
-         balance = show_Alert_Select_Ear(context);
+      show_Alert_Select_Ear(context);
     }
   }
 
@@ -126,7 +126,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     labels: ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                     print('switched to: $index');
+                    // print('switched to: $index');
                       setState(() {
                         if(index==0){
                           balance=0;
@@ -256,7 +256,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 28, horizontal: 0),
                               ),
                             )),

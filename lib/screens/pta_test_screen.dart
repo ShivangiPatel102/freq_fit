@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/card.dart';
 
 class PtaTestScreen extends StatelessWidget {
   const PtaTestScreen({super.key});
@@ -15,51 +16,63 @@ class PtaTestScreen extends StatelessWidget {
       ),
       drawer: MyDrawer(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(right: 25.0,left: 25.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Enter Patient Name',
-                hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
+            const Spacer(flex: 4,),
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Enter Patient Name',
+                  hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
+
+                  ),
+                ),
+            ),
+
+            const Spacer(),
+
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Enter Patient Email',
+                  hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
 
                 ),
               ),
+            ),
 
-            const SizedBox(height: 25.0,),
+            const Spacer(flex: 2,),
 
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Enter Patient Email',
-                hintStyle: TextStyle(fontFamily: 'Rubik',fontWeight: FontWeight.w400,color: Color.fromRGBO(40, 51, 74, 1),),
-
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/pureTone') ;
+                },
+                child: Container(
+                  height: 38,
+                  width: MediaQuery.of(context).size.width,
+                  color: const Color.fromRGBO(40, 51, 74, 1),
+                  child: const Center(child: Text('Register',style: TextStyle(fontFamily: 'Blinker',fontSize: 20,color: Colors.white,fontWeight: FontWeight.w700))),
+                ),
               ),
             ),
 
-            const SizedBox(height: 25.0,),
+            const Spacer(flex: 3,),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/pureTone') ;
-              },
-              child: Container(
-                height: 38,
-                width: MediaQuery.of(context).size.width,
-                color: const Color.fromRGBO(40, 51, 74, 1),
-                child: const Center(child: Text('Register',style: TextStyle(fontFamily: 'Blinker',fontSize: 20,color: Colors.white,fontWeight: FontWeight.w700))),
+            Expanded(
+              flex: 5,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SmallCard(imagePath: 'assets/icons/puretone.png', text: 'Pure Tone', onTap: (){}),
+                  //SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){}),
+                ],
               ),
             ),
 
-            const SizedBox(height: 35.0,),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SmallCard(imagePath: 'assets/icons/puretone.png', text: 'Pure Tone', onTap: (){}),
-                //SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){}),
-              ],
-            )
+            const Spacer(flex: 4,),
 
           ],
         ),
@@ -70,44 +83,3 @@ class PtaTestScreen extends StatelessWidget {
 
 
 
-class SmallCard extends StatelessWidget {
-  final String imagePath;
-  final String text;
-  final VoidCallback onTap; // Add this line if you want the card to be tappable
-
-  const SmallCard({
-    super.key,
-    required this.imagePath,
-    required this.text,
-    required this.onTap, // Add this argument if needed
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 126,
-        height: 151,
-        decoration:  BoxDecoration(
-
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: const [BoxShadow(color: Color(0xfffdfcfc), spreadRadius: 1.0, blurRadius: 3.0)],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(imagePath, width: 80.0, height: 80.0, fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 10.0),
-              Text(text, style: const TextStyle(fontFamily: 'Rubik',color: Color.fromRGBO(40, 51, 74, 1))),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

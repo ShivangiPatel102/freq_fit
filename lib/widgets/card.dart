@@ -14,25 +14,37 @@ class SmallCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: const [BoxShadow(color: Color(0xFFEEEEEE), spreadRadius: 1.0, blurRadius: 3.0)],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        //width: 126,
+        //height: 151,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const [
+            BoxShadow(
+                color: Color(0xfffdfcfc), spreadRadius: 1.0, blurRadius: 3.0)
+          ],
+        ),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(imagePath, width: 80.0, height: 80.0, fit: BoxFit.cover),
+            Expanded(
+              flex: 2,
+              child: Image.asset(imagePath,
+                  fit: BoxFit.cover),
             ),
-            const SizedBox(height: 10.0),
-            Text(text, style: const TextStyle(fontSize: 16.0,fontFamily: 'Rubik',color: Color.fromRGBO(40, 51, 74, 1))),
+            const Spacer(),
+            Expanded(
+              flex: 2,
+              child: Text(text,
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Rubik',
+                      color: Color.fromRGBO(40, 51, 74, 1))),
+            ),
           ],
         ),
       ),
     );
   }
 }
-// TODO Implement this library.
