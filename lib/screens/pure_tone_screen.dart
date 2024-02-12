@@ -25,18 +25,19 @@ class _PureToneScreenState extends State<PureToneScreen> {
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 200;
-  int balance = 0;
+  int balance = 0 ;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
   List<int>? oneCycleData;
   String buttonText = 'Start';
 
+
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
     } else if (_headsetState == HeadsetState.CONNECT) {
-      balance = show_Alert_Select_Ear(context);
+      show_Alert_Select_Ear(context);
     }
   }
 
@@ -48,20 +49,32 @@ class _PureToneScreenState extends State<PureToneScreen> {
     _headsetPlugin.getCurrentState.then((val) {
       setState(() {
         _headsetState = val;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _checkAndShowAlert();
+
+
+        });
       });
     });
 
     _headsetPlugin.setListener((val) {
       setState(() {
         _headsetState = val;
-        Navigator.pop(context);
-        _checkAndShowAlert();
+        if(_headsetState != HeadsetState.CONNECT) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            show_Alert_Check_Headphone(context);
+          });
+        }
+        else{
+          Navigator.pop(context);
+        }
+
+        // _checkAndShowAlert();
       });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkAndShowAlert();
-    });
+
 
     SoundGenerator.init(sampleRate);
     SoundGenerator.onIsPlayingChanged.listen((value) {
@@ -107,27 +120,27 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     minWidth: 38,
                     minHeight: 28,
                     cornerRadius: 20.0,
-                    activeBgColor: [kRedColor],
-                    customTextStyles: [
-                      const TextStyle(fontWeight: FontWeight.bold),
-                      const TextStyle(fontWeight: FontWeight.bold),
+                    activeBgColor: const [kRedColor],
+                    customTextStyles: const [
+                      TextStyle(fontWeight: FontWeight.bold),
+                      TextStyle(fontWeight: FontWeight.bold),
                     ],
                     activeFgColor: Colors.white,
                     inactiveBgColor: kNavyBlueColor,
                     inactiveFgColor: kNavyBlueColor,
                     initialLabelIndex: balance,
                     totalSwitches: 2,
-                    labels: ['L', 'R'],
+                    labels: const ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                      print('switched to: $index');
+                     // print('switched to: $index');
                       setState(() {
                         if (index == 0) {
                           balance = 0;
-                          SoundGenerator.setBalance(1);
+                          SoundGenerator.setBalance(-1);
                         } else {
                           balance = 1;
-                          SoundGenerator.setBalance(-1);
+                          SoundGenerator.setBalance(1);
                         }
                       });
                     },
