@@ -121,7 +121,7 @@ class SmallCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 16.0,
                       fontFamily: 'Rubik',
-                      color: Color.fromRGBO(40, 51, 74, 1))),
+                      color: Color.fromRGBO(30, 170, 60, 1))),
             ],
           ),
         ),

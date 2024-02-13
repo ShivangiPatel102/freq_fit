@@ -177,7 +177,7 @@ class SmallCard extends StatelessWidget {
                 child: Image.asset(imagePath, width: 80.0, height: 80.0, fit: BoxFit.cover),
               ),
               const SizedBox(height: 10.0),
-              Text(text, style: const TextStyle(fontSize: 16.0,fontFamily: 'Rubik',color: Color.fromRGBO(40, 51, 74, 1))),
+              Text(text, style: const TextStyle(fontSize: 16.0,fontFamily: 'Rubik',color: Color.fromRGBO(173, 240, 28, 1))),
             ],
           ),
         ),

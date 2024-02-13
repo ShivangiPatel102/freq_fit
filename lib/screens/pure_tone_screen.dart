@@ -24,9 +24,9 @@ class _PureToneScreenState extends State<PureToneScreen> {
 
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
-  double frequency = 0;
+  double frequency = 200;
   int balance = 0;
-  double volume = 1;
+  double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
   List<int>? oneCycleData;
@@ -184,7 +184,6 @@ class _PureToneScreenState extends State<PureToneScreen> {
                       flex: 3,
                       child: Container(
                         // padding: EdgeInsets.all(7),
-
                         child: Column(
                           children: [
                             Expanded(
@@ -192,7 +191,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    frequency += 1000;
+                                    if (frequency < 1000) {
+                                      frequency += 200;
+                                    } else if (frequency >= 1000 &&
+                                        frequency < 2000) {
+                                      frequency += 1000;
+                                    } else if (frequency >= 2000 &&
+                                        frequency < 12000) {
+                                      frequency += 2000;
+                                    }
                                     SoundGenerator.setFrequency(frequency);
                                   });
                                 },
@@ -207,7 +214,16 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      frequency -= 1000;
+                                      if (frequency > 2000 &&
+                                          frequency <= 12000) {
+                                        frequency -= 2000;
+                                      } else if (frequency > 1000 &&
+                                          frequency <= 2000) {
+                                        frequency -= 1000;
+                                      } else if (frequency > 200 &&
+                                          frequency <= 1000) {
+                                        frequency -= 200;
+                                      }
                                       SoundGenerator.setFrequency(frequency);
                                     });
                                   },
@@ -263,7 +279,9 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                 containerChild: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      volume += 5;
+                                      if (volume < 90) {
+                                        volume += 10;
+                                      }
                                       SoundGenerator.setVolume(volume);
                                     });
                                   },
@@ -284,7 +302,9 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                 containerChild: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      volume -= 5;
+                                      if (volume > 0) {
+                                        volume -= 10;
+                                      }
                                       SoundGenerator.setVolume(volume);
                                     });
                                   },
@@ -308,25 +328,77 @@ class _PureToneScreenState extends State<PureToneScreen> {
               ),
             ),
             // Finish Button
-            const Expanded(
-                flex: 2,
-                child: ReusableContainerForButtons(
-                  // padding:
-                  margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                  colour: kLightGreyColor,
-                  width: double.infinity,
-                  containerChild: Center(
-                    child: Text(
-                      'Finish',
-                      style: TextStyle(
-                          color: Color(0xff28334A50),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+            Expanded(
+              flex: 2,
+              child: Container(
+                
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: ButtonForSaveAndCancel(title: 'Save',),
                     ),
-                  ),
-                )),
+                    Spacer(),
+                    Expanded(
+                      flex: 4,
+                      child: ButtonForSaveAndCancel(title: 'Cancel'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const Spacer(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonForSaveAndCancel extends StatelessWidget {
+  const ButtonForSaveAndCancel({
+    super.key,
+    required this.title,
+  });
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return ReusableContainerForButtons(
+      padding: EdgeInsets.all(10),
+      containerChild: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kNavyBlueColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      colour: kPureWhiteColor,
+    );
+  }
+}
+
+class FinishButton extends StatelessWidget {
+  const FinishButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ReusableContainerForButtons(
+      margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+      colour: kLightGreyColor,
+      width: double.infinity,
+      containerChild: Center(
+        child: Text(
+          'Finish',
+          style: TextStyle(
+              color: Color(0xff28334A50),
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
         ),
       ),
     );
