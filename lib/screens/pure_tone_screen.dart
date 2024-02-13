@@ -6,11 +6,12 @@ import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
 import 'package:freq_fit/widgets/container_frequency_button.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
+import 'package:freq_fit/widgets/show_alert_continue_with_next_ear.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:sound_generator/sound_generator.dart';
 import 'package:sound_generator/waveTypes.dart';
-import 'package:freq_fit/widgets/show_Alert_Check_Headphone.dart';
-import 'package:freq_fit/widgets/show_Alert_Select_Ear.dart';
+import 'package:freq_fit/widgets/show_alert_check_headphone.dart';
+import 'package:freq_fit/widgets/show_alert_select_ear.dart';
 import 'package:headset_connection_event/headset_event.dart';
 
 class PureToneScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
   int sampleRate = 96000;
   List<int>? oneCycleData;
   String buttonText = 'Start';
+  bool isFinishButtonActive = false;
 
 
   void _checkAndShowAlert() {
@@ -237,6 +239,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                           frequency <= 1000) {
                                         frequency -= 200;
                                       }
+                                      else if(frequency==12000){
+                                          isFinishButtonActive = true;
+
+                                      }
                                       SoundGenerator.setFrequency(frequency);
                                     });
                                   },
@@ -271,12 +277,12 @@ class _PureToneScreenState extends State<PureToneScreen> {
                             containerChild: Text(
                               buttonText,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: kPureWhiteColor,
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold),
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 28, horizontal: 0),
                           ),
                         )),
@@ -341,23 +347,31 @@ class _PureToneScreenState extends State<PureToneScreen> {
               ),
             ),
             // Finish Button
-            const Expanded(
-                flex: 2,
-                child: ReusableContainerForButtons(
-                  // padding:
-                  margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                  colour: kLightGreyColor,
-                  width: double.infinity,
-                  containerChild: Center(
-                    child: Text(
-                      'Finish',
-                      style: TextStyle(
-                          color: Color(0xff28334A50),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+            GestureDetector(
+
+              onTap: (){
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  show_alert_continue_with_next_ear(context);
+                });
+              },
+              child: const Expanded(
+                  flex: 3,
+                  child: ReusableContainerForButtons(
+                    // padding:
+                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                    colour:  kLightGreyColor,
+                    width: double.infinity,
+                    containerChild: Center(
+                      child: Text(
+                        'Finish',
+                        style: TextStyle(
+                            color: Color(0xff28334A50),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
-                  ),
-                )),
+                  )),
+            ),
             const Spacer(),
           ],
         ),
