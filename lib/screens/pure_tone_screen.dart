@@ -34,6 +34,9 @@ class _PureToneScreenState extends State<PureToneScreen> {
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
 
+  List<AudioData> leftEar = [];
+  List<AudioData> rightEar = [];
+
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
@@ -270,6 +273,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
+                              AudioData audio = AudioData(freq: freq, db: db);
+                              if(balance==0)
+                              {
+                                leftEar.add(audio);
+                              }
+                              else if(balance==1)
+                              {
+                                rightEar.add(audio);
+                              }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -354,7 +366,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                   show_alert_continue_with_next_ear(context);
                 });
               },
-              child: const Expanded(
+              child: Expanded(
                   flex: 3,
                   child: ReusableContainerForButtons(
                     // padding:
@@ -362,13 +374,30 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     colour:  kLightGreyColor,
                     width: double.infinity,
                     containerChild: Center(
-                      child: Text(
-                        'Finish',
-                        style: TextStyle(
-                            color: Color(0xff28334A50),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                      ),
+                      child: GestureDetector(
+                        onTap:(){
+                          print("\n Left Ear: ");
+                          print(leftEar);
+                          print("\n Right Ear: ");
+                          print(rightEar);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AudioChartScreen(
+                                leftEar: leftEarData,
+                                rightEar: rightEarData,
+                              ),
+                            ),
+                          );
+                        },
+                        child:Text(
+                          'Finish',
+                          style: TextStyle(
+                              color: Color(0xff28334A50),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        )
+                      )
                     ),
                   )),
             ),
