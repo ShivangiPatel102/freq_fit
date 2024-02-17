@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
-import 'package:freq_fit/models/AudioData.dart';
-import 'package:freq_fit/screens/audio_chart.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
 import 'package:freq_fit/widgets/container_frequency_button.dart';
@@ -16,6 +14,9 @@ import 'package:freq_fit/widgets/show_alert_check_headphone.dart';
 import 'package:freq_fit/widgets/show_alert_select_ear.dart';
 import 'package:headset_connection_event/headset_event.dart';
 
+import '../models/AudioData.dart';
+import 'audio_chart.dart';
+
 class PureToneScreen extends StatefulWidget {
   @override
   State<PureToneScreen> createState() => _PureToneScreenState();
@@ -28,7 +29,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 200;
-  int balance = 0;
+  int balance = 0 ;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
@@ -43,9 +44,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
-    } else if (_headsetState == HeadsetState.CONNECT) {
-      show_Alert_Select_Ear(context);
     }
+    // else if (_headsetState == HeadsetState.CONNECT) {
+    //   show_Alert_Select_Ear(context);
+    // }
   }
 
   @override
@@ -53,30 +55,35 @@ class _PureToneScreenState extends State<PureToneScreen> {
     super.initState();
 
     _headsetPlugin.requestPermission();
-    _headsetPlugin.getCurrentState.then((val) {
-      setState(() {
-        _headsetState = val;
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _checkAndShowAlert();
-        });
-      });
-    });
+    // _headsetPlugin.getCurrentState.then((val) {
+    //   setState(() {
+    //     _headsetState = val;
+    //
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       _checkAndShowAlert();
+    //
+    //
+    //     });
+    //   });
+    // });
 
     _headsetPlugin.setListener((val) {
       setState(() {
         _headsetState = val;
-        if (_headsetState != HeadsetState.CONNECT) {
+        if(_headsetState != HeadsetState.CONNECT) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             show_Alert_Check_Headphone(context);
           });
-        } else {
+        }
+        else{
           Navigator.pop(context);
         }
 
         // _checkAndShowAlert();
       });
     });
+
+
 
     SoundGenerator.init(sampleRate);
     SoundGenerator.onIsPlayingChanged.listen((value) {
@@ -135,7 +142,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     labels: const ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                      // print('switched to: $index');
+                     // print('switched to: $index');
                       setState(() {
                         if (index == 0) {
                           balance = 0;
@@ -238,8 +245,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                       } else if (frequency > 200 &&
                                           frequency <= 1000) {
                                         frequency -= 200;
-                                      } else if (frequency == 12000) {
-                                        isFinishButtonActive = true;
+                                      }
+                                      else if(frequency==12000){
+                                          isFinishButtonActive = true;
+
                                       }
                                       SoundGenerator.setFrequency(frequency);
                                     });
@@ -268,15 +277,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
-                              AudioData audio = AudioData(freq: frequency, db: volume);
-                              if(balance==0)
-                              {
-                                leftEar.add(audio);
-                              }
-                              else if(balance==1)
-                              {
-                                rightEar.add(audio);
-                              }
+                              // AudioData audio = AudioData(freq: frequency, db: volume);
+                              // if(balance==0)
+                              // {
+                              //   leftEar.add(audio);
+                              // }
+                              // else if(balance==1)
+                              // {
+                              //   rightEar.add(audio);
+                              // }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -363,89 +372,72 @@ class _PureToneScreenState extends State<PureToneScreen> {
               },
               child: Expanded(
                   flex: 3,
-                  child: ReusableContainerForButtons(
-                    // padding:
-                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                    colour:  kLightGreyColor,
-                    width: double.infinity,
-                    containerChild: Center(
-                      child: GestureDetector(
-                        onTap:(){
-                          print("\n Left Ear: ");
-                          print(leftEar);
-                          print("\n Right Ear: ");
-                          print(rightEar);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AudioChartScreen(
-                                leftEar: leftEar,
-                                rightEar: rightEar,
-                              ),
-                            ),
-                          );
-                        },
-                        child:Text(
-                          'Finish',
-                          style: TextStyle(
-                              color: Color(0xff28334A50),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                        )
-                      )
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: ReusableContainerForButtons(
+                          // padding:
+                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                          colour:  kWhiteWidgetColor,
+                          containerChild: Center(
+                            child: GestureDetector(
+                              onTap:(){
+                                AudioData audio = AudioData(freq: frequency, db: volume);
+                                if(balance==0)
+                                {
+                                  leftEar.add(audio);
+                                }
+                                else if(balance==1)
+                                {
+                                  rightEar.add(audio);
+                                }
+                              },
+                              child:const Text(
+                                'Save',
+                                style: kWhiteButtonTextStyle,
+                              )
+                            )
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        flex: 6,
+                        child: ReusableContainerForButtons(
+                          // padding:
+                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                          colour:  kWhiteWidgetColor,
+                          containerChild: Center(
+                              child: GestureDetector(
+                                  onTap:(){
+                                    // print("\n Left Ear: ");
+                                    // print(leftEar);
+                                    // print("\n Right Ear: ");
+                                    // print(rightEar);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AudioChartScreen(
+                                          leftEar: leftEar,
+                                          rightEar: rightEar,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child:const Text(
+                                    'Finish',
+                                    style: kWhiteButtonTextStyle,
+                                  )
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
                   )),
             ),
             const Spacer(),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ButtonForSaveAndCancel extends StatelessWidget {
-  const ButtonForSaveAndCancel({
-    super.key,
-    required this.title,
-  });
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return ReusableContainerForButtons(
-      padding: EdgeInsets.all(10),
-      containerChild: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: kNavyBlueColor,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      colour: kPureWhiteColor,
-    );
-  }
-}
-
-class FinishButton extends StatelessWidget {
-  const FinishButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ReusableContainerForButtons(
-      margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-      colour: kLightGreyColor,
-      width: double.infinity,
-      containerChild: Center(
-        child: Text(
-          'Finish',
-          style: TextStyle(
-              color: Color(0xff28334A50),
-              fontSize: 16,
-              fontWeight: FontWeight.w600),
         ),
       ),
     );

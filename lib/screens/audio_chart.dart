@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:freq_fit/models/AudioData.dart';
+import 'package:freq_fit/constants.dart';
+import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../models/AudioData.dart';
+import 'package:flutter/material.dart';
 
 class AudioChartScreen extends StatelessWidget {
   final List<AudioData> leftEar;
@@ -11,16 +15,19 @@ class AudioChartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Audio Data Charts'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBarCustom(title: 'PTA Results')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(flex: 2,child: ReusableContainerForButtons(colour:kPureWhiteColor,containerChild: Center(child: Text('Patient Name',style: kWhiteButtonTextStyle,)),)),
+          const Spacer(),
+          Expanded(
+            flex: 10,
+            child: Container(
               child: SfCartesianChart(
-                primaryXAxis: NumericAxis(),
+                primaryXAxis: const NumericAxis(),
                 series: <CartesianSeries>[
                   LineSeries<AudioData, double>(
                     dataSource: leftEar,
@@ -37,8 +44,8 @@ class AudioChartScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freq_fit/constants.dart';
 
+import '../screens/audio_chart.dart';
+
 void show_alert_continue_with_next_ear (BuildContext context){
   showDialog(
     context: context,
@@ -24,6 +26,7 @@ void show_alert_continue_with_next_ear (BuildContext context){
                   flex: 2,
                   child: GestureDetector(
                     onTap: (){
+                      Navigator.pushNamed(context, '/pureTone');
                     },
                     child: Container(
                       // height: 83,
@@ -41,6 +44,7 @@ void show_alert_continue_with_next_ear (BuildContext context){
                   flex: 2,
                   child: GestureDetector(
                     onTap: (){
+
                     },
                     child: Container(
                       // height: 83,
