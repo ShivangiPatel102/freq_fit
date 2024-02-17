@@ -31,7 +31,6 @@ class _PureToneScreenState extends State<PureToneScreen> {
   double frequency = 200;
   int balance = 0 ;
   double volume = 0;
-  double db =0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
   List<int>? oneCycleData;
@@ -45,11 +44,11 @@ class _PureToneScreenState extends State<PureToneScreen> {
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
-      // } else if (_headsetState == HeadsetState.CONNECT) {
-      //   show_Alert_Select_Ear(context);
-      // }
+    } else if (_headsetState == HeadsetState.CONNECT) {
+      show_Alert_Select_Ear(context);
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -59,8 +58,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
       setState(() {
         _headsetState = val;
 
-         WidgetsBinding.instance.addPostFrameCallback((_) {
-           _checkAndShowAlert();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _checkAndShowAlert();
+
+
         });
       });
     });
@@ -275,15 +276,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
-                              // AudioData audio = AudioData(freq: frequency, db: db);
-                              // if(balance==0)
-                              // {
-                              //   leftEar.add(audio);
-                              // }
-                              // else if(balance==1)
-                              // {
-                              //   rightEar.add(audio);
-                              // }
+                              AudioData audio = AudioData(freq: frequency, db: volume);
+                              if(balance==0)
+                              {
+                                leftEar.add(audio);
+                              }
+                              else if(balance==1)
+                              {
+                                rightEar.add(audio);
+                              }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -360,49 +361,50 @@ class _PureToneScreenState extends State<PureToneScreen> {
                 ),
               ),
             ),
-
             // Finish Button
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(flex:6,child: GestureDetector(
-                    onTap: (){
-                      AudioData audio = AudioData(freq: frequency, db: volume);
-                    if(balance==0)
-                    {
-                      leftEar.add(audio);
-                    }
-                    else if(balance==1)
-                    {
-                      rightEar.add(audio);
-                    }},
-                    child: ReusableContainerForButtons(
-                      colour: kWhiteWidgetColor,
-                      containerChild: Center(
-                        child: Text('Save',style: kWhiteButtonTextStyle,),
-                      ),
-                    ),
-                  )),
-                  const Spacer(),
-                  Expanded(flex:6,child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) => AudioChartScreen(leftEar: leftEar, rightEar: rightEar),
-                          ));
-                    },
-                    child: ReusableContainerForButtons(
-                      colour: kWhiteWidgetColor,
-                      containerChild: Center(
-                        child: Text('Finish',style: kWhiteButtonTextStyle,),
-                      ),
-                    ),
-                  )),
-                ],
-              ),
-            ),
+            GestureDetector(
 
+              onTap: (){
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  show_alert_continue_with_next_ear(context);
+                });
+              },
+              child: Expanded(
+                  flex: 3,
+                  child: ReusableContainerForButtons(
+                    // padding:
+                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                    colour:  kLightGreyColor,
+                    width: double.infinity,
+                    containerChild: Center(
+                      child: GestureDetector(
+                        onTap:(){
+                          print("\n Left Ear: ");
+                          print(leftEar);
+                          print("\n Right Ear: ");
+                          print(rightEar);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AudioChartScreen(
+                                leftEar: leftEar,
+                                rightEar: rightEar,
+                              ),
+                            ),
+                          );
+                        },
+                        child:const Text(
+                          'Finish',
+                          style: TextStyle(
+                              color: Color(0xff28334A50),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        )
+                      )
+                    ),
+                  )),
+            ),
+            const Spacer(),
           ],
         ),
       ),

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:freq_fit/screens/home_screen.dart';
 import 'package:freq_fit/screens/login_screen.dart';
+import 'package:freq_fit/screens/pta_results_screen.dart';
 import 'package:freq_fit/screens/pta_test_screen.dart';
 import 'package:freq_fit/screens/pure_tone_screen.dart';
 import 'package:freq_fit/screens/registration_screen.dart';
 import 'package:freq_fit/screens/splash_screen.dart';
-import 'package:freq_fit/widgets/show_alert_check_headphone.dart';
-import 'package:freq_fit/widgets/show_alert_select_ear.dart';
-import 'package:headset_connection_event/headset_event.dart';
-import 'package:freq_fit/widgets/show_finish_alert.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/home' : (context) =>  HomeScreen(),
         '/ptaTest': (context) =>  PtaTestScreen(),
         '/pureTone': (context) =>  PureToneScreen(),
+        '/ptaResults': (context) =>  PtaResultsScreen(),
 
       },
     );
