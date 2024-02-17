@@ -55,17 +55,17 @@ class _PureToneScreenState extends State<PureToneScreen> {
     super.initState();
 
     _headsetPlugin.requestPermission();
-    _headsetPlugin.getCurrentState.then((val) {
-      setState(() {
-        _headsetState = val;
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _checkAndShowAlert();
-
-
-        });
-      });
-    });
+    // _headsetPlugin.getCurrentState.then((val) {
+    //   setState(() {
+    //     _headsetState = val;
+    //
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       _checkAndShowAlert();
+    //
+    //
+    //     });
+    //   });
+    // });
 
     _headsetPlugin.setListener((val) {
       setState(() {

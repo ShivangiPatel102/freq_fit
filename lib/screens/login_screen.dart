@@ -7,6 +7,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsetsDirectional.only(start: 25.0,end: 25.0),
         child: Column(
