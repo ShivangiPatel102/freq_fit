@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
+import 'package:freq_fit/models/AudioData.dart';
+import 'package:freq_fit/screens/audio_chart.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
 import 'package:freq_fit/widgets/container_frequency_button.dart';
@@ -33,6 +35,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
   List<int>? oneCycleData;
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
+
+  List<AudioData> leftEar = [];
+  List<AudioData> rightEar = [];
+
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
@@ -262,6 +268,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
+                              AudioData audio = AudioData(freq: frequency, db: volume);
+                              if(balance==0)
+                              {
+                                leftEar.add(audio);
+                              }
+                              else if(balance==1)
+                              {
+                                rightEar.add(audio);
+                              }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -339,27 +354,47 @@ class _PureToneScreenState extends State<PureToneScreen> {
               ),
             ),
             // Finish Button
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: ButtonForSaveAndCancel(
-                        title: 'Save',
-                      ),
+            GestureDetector(
+
+              onTap: (){
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  show_alert_continue_with_next_ear(context);
+                });
+              },
+              child: Expanded(
+                  flex: 3,
+                  child: ReusableContainerForButtons(
+                    // padding:
+                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                    colour:  kLightGreyColor,
+                    width: double.infinity,
+                    containerChild: Center(
+                      child: GestureDetector(
+                        onTap:(){
+                          print("\n Left Ear: ");
+                          print(leftEar);
+                          print("\n Right Ear: ");
+                          print(rightEar);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AudioChartScreen(
+                                leftEar: leftEar,
+                                rightEar: rightEar,
+                              ),
+                            ),
+                          );
+                        },
+                        child:Text(
+                          'Finish',
+                          style: TextStyle(
+                              color: Color(0xff28334A50),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        )
+                      )
                     ),
-                    Spacer(),
-                    Expanded(
-                      flex: 4,
-                      child: ButtonForSaveAndCancel(title: 'Cancel'),
-                    ),
-                  ],
-                ),
-              ),
+                  )),
             ),
             const Spacer(),
           ],
