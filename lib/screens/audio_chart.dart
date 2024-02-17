@@ -21,7 +21,7 @@ class AudioChartScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(flex: 2,child: ReusableContainerForButtons(colour:kPureWhiteColor,containerChild: Center(child: Text('Patient Name',style: kWhiteButtonTextStyle,)),)),
+          Expanded(flex: 2,child: ReusableContainerForButtons(colour:kPureWhiteColor,containerChild: Center(child: Text('Patient Name',style: kAlertCardButtonTextStyle,)),)),
           const Spacer(),
           Expanded(
             flex: 10,

@@ -395,7 +395,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               },
                               child:const Text(
                                 'Save',
-                                style: kWhiteButtonTextStyle,
+                                style: kAlertCardButtonTextStyle,
                               )
                             )
                           ),
@@ -427,7 +427,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                   },
                                   child:const Text(
                                     'Finish',
-                                    style: kWhiteButtonTextStyle,
+                                    style: kAlertCardButtonTextStyle,
                                   )
                               )
                           ),

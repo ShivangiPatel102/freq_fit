@@ -54,6 +54,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   // const Spacer(),
+                  const SizedBox(width: 20.0,),
                   Expanded(
                     flex: 6,
                     child: SmallCard(
@@ -70,8 +71,8 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-        
-        
+
+            const SizedBox(height: 20.0,),
             // Spacer(),
             Expanded(
               flex: 5,
@@ -91,6 +92,7 @@ class HomeScreen extends StatelessWidget {
                   
                   ),
                   // const Spacer(),
+                  const SizedBox(width: 20.0,),
                   Expanded(
                     flex: 6,
                     child: SmallCard(
@@ -106,7 +108,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
         
-            Spacer(),
+            //Spacer(),
             const Spacer(flex: 5,)
           ],
         ),

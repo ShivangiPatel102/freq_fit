@@ -18,7 +18,7 @@ class SmallCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        elevation: 1,
+        elevation: 5,
         child: Container(
           // width: double.infinity,
           //height: 151,
@@ -40,9 +40,16 @@ class SmallCard extends StatelessWidget {
                 child: Image.asset(imagePath,
                     fit: BoxFit.cover),
               ),
-              const Spacer(),
+             // const Spacer(),
+              Divider(
+                color: kNavyBlueColor,
+                thickness: 1.0,
+                indent: 30.0,
+                endIndent: 30.0,
+              ),
+
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Text(text,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
