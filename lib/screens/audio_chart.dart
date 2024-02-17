@@ -1,3 +1,6 @@
+import 'package:freq_fit/constants.dart';
+import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/AudioData.dart';
@@ -12,34 +15,34 @@ class AudioChartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Audio Data Charts'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: SfCartesianChart(
-                primaryXAxis: NumericAxis(),
-                series: <CartesianSeries>[
-                  LineSeries<AudioData, double>(
-                    dataSource: leftEar,
-                    xValueMapper: (AudioData data, _) => data.freq,
-                    yValueMapper: (AudioData data, _) => data.db,
-                    name: 'Left Ear',
-                  ),
-                  LineSeries<AudioData, double>(
-                    dataSource: rightEar,
-                    xValueMapper: (AudioData data, _) => data.freq,
-                    yValueMapper: (AudioData data, _) => data.db,
-                    name: 'Right Ear',
-                  ),
-                ],
-              ),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBarCustom(title: 'PTA Results')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(child: ReusableContainerForButtons(containerChild: Center(child: Text('Patient Name',style: kWhiteButtonTextStyle,)),)),
+          const Spacer(),
+          Expanded(
+            child: SfCartesianChart(
+              primaryXAxis: const NumericAxis(),
+              series: <CartesianSeries>[
+                LineSeries<AudioData, double>(
+                  dataSource: leftEar,
+                  xValueMapper: (AudioData data, _) => data.freq,
+                  yValueMapper: (AudioData data, _) => data.db,
+                  name: 'Left Ear',
+                ),
+                LineSeries<AudioData, double>(
+                  dataSource: rightEar,
+                  xValueMapper: (AudioData data, _) => data.freq,
+                  yValueMapper: (AudioData data, _) => data.db,
+                  name: 'Right Ear',
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

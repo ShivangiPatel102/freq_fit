@@ -44,9 +44,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
-    } else if (_headsetState == HeadsetState.CONNECT) {
-      show_Alert_Select_Ear(context);
     }
+    // else if (_headsetState == HeadsetState.CONNECT) {
+    //   show_Alert_Select_Ear(context);
+    // }
   }
 
   @override
@@ -276,15 +277,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
-                              AudioData audio = AudioData(freq: frequency, db: volume);
-                              if(balance==0)
-                              {
-                                leftEar.add(audio);
-                              }
-                              else if(balance==1)
-                              {
-                                rightEar.add(audio);
-                              }
+                              // AudioData audio = AudioData(freq: frequency, db: volume);
+                              // if(balance==0)
+                              // {
+                              //   leftEar.add(audio);
+                              // }
+                              // else if(balance==1)
+                              // {
+                              //   rightEar.add(audio);
+                              // }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -371,37 +372,68 @@ class _PureToneScreenState extends State<PureToneScreen> {
               },
               child: Expanded(
                   flex: 3,
-                  child: ReusableContainerForButtons(
-                    // padding:
-                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                    colour:  kLightGreyColor,
-                    width: double.infinity,
-                    containerChild: Center(
-                      child: GestureDetector(
-                        onTap:(){
-                          print("\n Left Ear: ");
-                          print(leftEar);
-                          print("\n Right Ear: ");
-                          print(rightEar);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AudioChartScreen(
-                                leftEar: leftEar,
-                                rightEar: rightEar,
-                              ),
-                            ),
-                          );
-                        },
-                        child:const Text(
-                          'Finish',
-                          style: TextStyle(
-                              color: Color(0xff28334A50),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                        )
-                      )
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: ReusableContainerForButtons(
+                          // padding:
+                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                          colour:  kWhiteWidgetColor,
+                          containerChild: Center(
+                            child: GestureDetector(
+                              onTap:(){
+                                AudioData audio = AudioData(freq: frequency, db: volume);
+                                if(balance==0)
+                                {
+                                  leftEar.add(audio);
+                                }
+                                else if(balance==1)
+                                {
+                                  rightEar.add(audio);
+                                }
+                              },
+                              child:const Text(
+                                'Save',
+                                style: kWhiteButtonTextStyle,
+                              )
+                            )
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        flex: 6,
+                        child: ReusableContainerForButtons(
+                          // padding:
+                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                          colour:  kWhiteWidgetColor,
+                          containerChild: Center(
+                              child: GestureDetector(
+                                  onTap:(){
+                                    // print("\n Left Ear: ");
+                                    // print(leftEar);
+                                    // print("\n Right Ear: ");
+                                    // print(rightEar);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AudioChartScreen(
+                                          leftEar: leftEar,
+                                          rightEar: rightEar,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child:const Text(
+                                    'Finish',
+                                    style: kWhiteButtonTextStyle,
+                                  )
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
                   )),
             ),
             const Spacer(),
