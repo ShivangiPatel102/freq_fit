@@ -11,7 +11,7 @@ class AppBarCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: kWhiteBgColor,
+      backgroundColor: kWhiteWidgetColor,
       elevation: 1,
       shadowColor: Colors.black,
       // toolbarHeight: 80.0,

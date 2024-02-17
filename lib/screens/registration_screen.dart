@@ -7,6 +7,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsetsDirectional.only(start: 25.0,end: 25.0),
         child: Column(
@@ -51,9 +52,10 @@ class RegisterScreen extends StatelessWidget {
             const Spacer(),
 
             Expanded(
+              flex: 2,
               child: GestureDetector(
                 child: Container(
-                  height: 38,
+                  padding: EdgeInsets.all(0),
                   width: MediaQuery.of(context).size.width,
                   color: const Color.fromRGBO(40, 51, 74, 1),
                   child: const Center(child: Text('Register',style: TextStyle(fontFamily: 'Blinker',fontSize: 20,color: Colors.white,fontWeight: FontWeight.w700))),
@@ -63,21 +65,23 @@ class RegisterScreen extends StatelessWidget {
             const Spacer(),
 
             Expanded(
+             
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Have an Account?",style: TextStyle(fontFamily: 'Blinker',fontSize: 15.0,fontWeight: FontWeight.normal),),
+                  const Text("Have an Account?",style: TextStyle(fontFamily: 'Blinker',fontSize: 19.0,fontWeight: FontWeight.normal),),
                   const SizedBox(width: 5.0,),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/login') ;                   },
-                    child: const Text('Login!',style: TextStyle(fontWeight: FontWeight.w700),),
+                    child: const Text('Login!',style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),),
                   ),
                 ],
               ),
             ),
 
-            const Spacer(flex: 5,),
+            const Spacer(flex: 6,),
 
 
           ],
