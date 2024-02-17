@@ -16,6 +16,21 @@ const kTitleOfAppBarTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'Blinker',
 );
-
-const kAlertCardTextStyle = TextStyle(fontFamily: 'Blinker',fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white);
-const kAlertCardButtonTextStyle = TextStyle(fontFamily: 'Blinker',fontWeight: FontWeight.bold,fontSize: 20,color: kNavyBlueColor);
+const TextStyle small = const TextStyle(
+    fontWeight: FontWeight.w100, fontFamily: 'Blinker', fontSize: 20);
+const TextStyle large = const TextStyle(
+  fontFamily: 'Blinker',
+  fontWeight: FontWeight.w600,
+  fontSize: 50,
+  color: Color.fromRGBO(40, 51, 74, 1),
+);
+const kAlertCardTextStyle = TextStyle(
+    fontFamily: 'Blinker',
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: Colors.white);
+const kAlertCardButtonTextStyle = TextStyle(
+    fontFamily: 'Blinker',
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: kNavyBlueColor);
