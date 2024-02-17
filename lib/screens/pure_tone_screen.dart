@@ -26,14 +26,13 @@ class _PureToneScreenState extends State<PureToneScreen> {
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 200;
-  int balance = 0 ;
+  int balance = 0;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
   List<int>? oneCycleData;
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
-
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
@@ -54,8 +53,6 @@ class _PureToneScreenState extends State<PureToneScreen> {
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _checkAndShowAlert();
-
-
         });
       });
     });
@@ -63,20 +60,17 @@ class _PureToneScreenState extends State<PureToneScreen> {
     _headsetPlugin.setListener((val) {
       setState(() {
         _headsetState = val;
-        if(_headsetState != HeadsetState.CONNECT) {
+        if (_headsetState != HeadsetState.CONNECT) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             show_Alert_Check_Headphone(context);
           });
-        }
-        else{
+        } else {
           Navigator.pop(context);
         }
 
         // _checkAndShowAlert();
       });
     });
-
-
 
     SoundGenerator.init(sampleRate);
     SoundGenerator.onIsPlayingChanged.listen((value) {
@@ -135,7 +129,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     labels: const ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                     // print('switched to: $index');
+                      // print('switched to: $index');
                       setState(() {
                         if (index == 0) {
                           balance = 0;
@@ -238,10 +232,8 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                       } else if (frequency > 200 &&
                                           frequency <= 1000) {
                                         frequency -= 200;
-                                      }
-                                      else if(frequency==12000){
-                                          isFinishButtonActive = true;
-
+                                      } else if (frequency == 12000) {
+                                        isFinishButtonActive = true;
                                       }
                                       SoundGenerator.setFrequency(frequency);
                                     });
@@ -347,33 +339,78 @@ class _PureToneScreenState extends State<PureToneScreen> {
               ),
             ),
             // Finish Button
-            GestureDetector(
-
-              onTap: (){
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  show_alert_continue_with_next_ear(context);
-                });
-              },
-              child: const Expanded(
-                  flex: 3,
-                  child: ReusableContainerForButtons(
-                    // padding:
-                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                    colour:  kLightGreyColor,
-                    width: double.infinity,
-                    containerChild: Center(
-                      child: Text(
-                        'Finish',
-                        style: TextStyle(
-                            color: Color(0xff28334A50),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
+            Expanded(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: ButtonForSaveAndCancel(
+                        title: 'Save',
                       ),
                     ),
-                  )),
+                    Spacer(),
+                    Expanded(
+                      flex: 4,
+                      child: ButtonForSaveAndCancel(title: 'Cancel'),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const Spacer(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonForSaveAndCancel extends StatelessWidget {
+  const ButtonForSaveAndCancel({
+    super.key,
+    required this.title,
+  });
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return ReusableContainerForButtons(
+      padding: EdgeInsets.all(10),
+      containerChild: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kNavyBlueColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      colour: kPureWhiteColor,
+    );
+  }
+}
+
+class FinishButton extends StatelessWidget {
+  const FinishButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ReusableContainerForButtons(
+      margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+      colour: kLightGreyColor,
+      width: double.infinity,
+      containerChild: Center(
+        child: Text(
+          'Finish',
+          style: TextStyle(
+              color: Color(0xff28334A50),
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
         ),
       ),
     );
