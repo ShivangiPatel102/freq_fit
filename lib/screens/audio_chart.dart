@@ -21,25 +21,28 @@ class AudioChartScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(child: ReusableContainerForButtons(containerChild: Center(child: Text('Patient Name',style: kWhiteButtonTextStyle,)),)),
+          Expanded(flex: 2,child: ReusableContainerForButtons(colour:kPureWhiteColor,containerChild: Center(child: Text('Patient Name',style: kWhiteButtonTextStyle,)),)),
           const Spacer(),
           Expanded(
-            child: SfCartesianChart(
-              primaryXAxis: const NumericAxis(),
-              series: <CartesianSeries>[
-                LineSeries<AudioData, double>(
-                  dataSource: leftEar,
-                  xValueMapper: (AudioData data, _) => data.freq,
-                  yValueMapper: (AudioData data, _) => data.db,
-                  name: 'Left Ear',
-                ),
-                LineSeries<AudioData, double>(
-                  dataSource: rightEar,
-                  xValueMapper: (AudioData data, _) => data.freq,
-                  yValueMapper: (AudioData data, _) => data.db,
-                  name: 'Right Ear',
-                ),
-              ],
+            flex: 10,
+            child: Container(
+              child: SfCartesianChart(
+                primaryXAxis: const NumericAxis(),
+                series: <CartesianSeries>[
+                  LineSeries<AudioData, double>(
+                    dataSource: leftEar,
+                    xValueMapper: (AudioData data, _) => data.freq,
+                    yValueMapper: (AudioData data, _) => data.db,
+                    name: 'Left Ear',
+                  ),
+                  LineSeries<AudioData, double>(
+                    dataSource: rightEar,
+                    xValueMapper: (AudioData data, _) => data.freq,
+                    yValueMapper: (AudioData data, _) => data.db,
+                    name: 'Right Ear',
+                  ),
+                ],
+              ),
             ),
           ),
         ],
