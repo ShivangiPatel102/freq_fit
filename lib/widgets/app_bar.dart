@@ -16,7 +16,7 @@ class AppBarCustom extends StatelessWidget {
       shadowColor: Colors.black,
       // toolbarHeight: 80.0,
       centerTitle: true,
-
+      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50.0),

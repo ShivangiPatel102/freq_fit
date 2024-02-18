@@ -78,20 +78,28 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 7,),
+            SizedBox(
+              height: 7,
+            ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an Account? ", style: const TextStyle(
-    fontWeight: FontWeight.w100, fontFamily: 'Blinker', fontSize: 15),),
+                  Text(
+                    "Don't have an Account? ",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w100,
+                        fontFamily: 'Blinker',
+                        fontSize: 15),
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/register');
                     },
                     child: const Text(
                       'Register!!',
-                      style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                     ),
                   ),
                 ],

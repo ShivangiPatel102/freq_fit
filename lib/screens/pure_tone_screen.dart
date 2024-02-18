@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
+import 'package:freq_fit/providers/audio_points.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
 import 'package:freq_fit/widgets/container_frequency_button.dart';
@@ -17,19 +19,19 @@ import 'package:headset_connection_event/headset_event.dart';
 import '../models/AudioData.dart';
 import 'audio_chart.dart';
 
-class PureToneScreen extends StatefulWidget {
+class PureToneScreen extends ConsumerStatefulWidget {
   @override
-  State<PureToneScreen> createState() => _PureToneScreenState();
+  _PureToneScreenState createState() => _PureToneScreenState();
 }
 
-class _PureToneScreenState extends State<PureToneScreen> {
+class _PureToneScreenState extends ConsumerState<PureToneScreen> {
   final _headsetPlugin = HeadsetEvent();
   HeadsetState? _headsetState;
 
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
   double frequency = 200;
-  int balance = 0 ;
+  int balance = 0;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
   int sampleRate = 96000;
@@ -37,9 +39,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
 
-  List<AudioData> leftEar = [];
-  List<AudioData> rightEar = [];
-
+  // List<AudioData> rightEar = [];
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
@@ -70,20 +70,17 @@ class _PureToneScreenState extends State<PureToneScreen> {
     _headsetPlugin.setListener((val) {
       setState(() {
         _headsetState = val;
-        if(_headsetState != HeadsetState.CONNECT) {
+        if (_headsetState != HeadsetState.CONNECT) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             show_Alert_Check_Headphone(context);
           });
-        }
-        else{
+        } else {
           Navigator.pop(context);
         }
 
         // _checkAndShowAlert();
       });
     });
-
-
 
     SoundGenerator.init(sampleRate);
     SoundGenerator.onIsPlayingChanged.listen((value) {
@@ -106,6 +103,8 @@ class _PureToneScreenState extends State<PureToneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<AudioData> leftEar = ref.read(audioDataPointsProvider).leftEarPoints;
+    List<AudioData> rightEar = ref.read(audioDataPointsProvider).rightEarPoints;
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(80), // Adjust height as needed
@@ -142,7 +141,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     labels: const ['L', 'R'],
                     radiusStyle: true,
                     onToggle: (index) {
-                     // print('switched to: $index');
+                      // print('switched to: $index');
                       setState(() {
                         if (index == 0) {
                           balance = 0;
@@ -245,10 +244,8 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                       } else if (frequency > 200 &&
                                           frequency <= 1000) {
                                         frequency -= 200;
-                                      }
-                                      else if(frequency==12000){
-                                          isFinishButtonActive = true;
-
+                                      } else if (frequency == 12000) {
+                                        isFinishButtonActive = true;
                                       }
                                       SoundGenerator.setFrequency(frequency);
                                     });
@@ -315,7 +312,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                   onTap: () {
                                     setState(() {
                                       if (volume < 90) {
-                                        volume += 10;
+                                        volume += 5;
                                       }
                                       SoundGenerator.setVolume(volume);
                                     });
@@ -338,7 +335,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                   onTap: () {
                                     setState(() {
                                       if (volume > 0) {
-                                        volume -= 10;
+                                        volume -= 5;
                                       }
                                       SoundGenerator.setVolume(volume);
                                     });
@@ -364,8 +361,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
             ),
             // Finish Button
             GestureDetector(
-
-              onTap: (){
+              onTap: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   show_alert_continue_with_next_ear(context);
                 });
@@ -379,26 +375,22 @@ class _PureToneScreenState extends State<PureToneScreen> {
                         child: ReusableContainerForButtons(
                           // padding:
                           //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                          colour:  kWhiteWidgetColor,
+                          colour: kWhiteWidgetColor,
                           containerChild: Center(
-                            child: GestureDetector(
-                              onTap:(){
-                                AudioData audio = AudioData(freq: frequency, db: volume);
-                                if(balance==0)
-                                {
-                                  leftEar.add(audio);
-                                }
-                                else if(balance==1)
-                                {
-                                  rightEar.add(audio);
-                                }
-                              },
-                              child:const Text(
-                                'Save',
-                                style: kWhiteButtonTextStyle,
-                              )
-                            )
-                          ),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    AudioData audio =
+                                        AudioData(freq: frequency, db: volume);
+                                    if (balance == 0) {
+                                      leftEar.add(audio);
+                                    } else if (balance == 1) {
+                                      rightEar.add(audio);
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: kWhiteButtonTextStyle,
+                                  ))),
                         ),
                       ),
                       const Spacer(),
@@ -407,10 +399,10 @@ class _PureToneScreenState extends State<PureToneScreen> {
                         child: ReusableContainerForButtons(
                           // padding:
                           //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                          colour:  kWhiteWidgetColor,
+                          colour: kWhiteWidgetColor,
                           containerChild: Center(
                               child: GestureDetector(
-                                  onTap:(){
+                                  onTap: () {
                                     // print("\n Left Ear: ");
                                     // print(leftEar);
                                     // print("\n Right Ear: ");
@@ -418,19 +410,15 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => AudioChartScreen(
-                                          leftEar: leftEar,
-                                          rightEar: rightEar,
-                                        ),
+                                        builder: (context) =>
+                                            AudioChartScreen(),
                                       ),
                                     );
                                   },
-                                  child:const Text(
+                                  child: const Text(
                                     'Finish',
                                     style: kWhiteButtonTextStyle,
-                                  )
-                              )
-                          ),
+                                  ))),
                         ),
                       ),
                     ],

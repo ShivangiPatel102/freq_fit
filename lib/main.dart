@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freq_fit/screens/home_screen.dart';
 import 'package:freq_fit/screens/login_screen.dart';
 import 'package:freq_fit/screens/pta_results_screen.dart';
@@ -9,7 +10,7 @@ import 'package:freq_fit/screens/splash_screen.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
