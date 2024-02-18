@@ -13,7 +13,7 @@ class ContainerFrequenyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ReusableContainerForButtons(
       containerChild: Container(
-        margin: EdgeInsets.all(18),
+        margin: EdgeInsets.all(17),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(3),

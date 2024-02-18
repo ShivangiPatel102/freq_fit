@@ -26,7 +26,7 @@ class ContainerDisplayingFqAndDb extends StatelessWidget {
             '$number',
             style: TextStyle(
                 fontSize: 30,
-                fontWeight: FontWeight.bold,
+                fontFamily: 'Rubik',
                 color: kNavyBlueColor),
           ),
           Spacer(),

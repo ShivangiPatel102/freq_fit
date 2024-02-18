@@ -192,12 +192,12 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                 ),
               ),
             ),
+
             // Control Buttons
             Expanded(
               flex: 4,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
                 child: Row(
                   children: [
                     // Frequency Buttons
@@ -366,11 +366,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                   children: [
                     Expanded(
                       flex: 6,
-                      child: ReusableContainerForButtons(
-                        // padding:
-                        //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                        colour: kWhiteWidgetColor,
-                        containerChild: Center(
+                      child:  Center(
                             child: GestureDetector(
                                 onTap: () {
                                   AudioData audio =
@@ -381,46 +377,54 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                     rightEar.add(audio);
                                   }
                                 },
-                                child: const Text(
-                                  'Save',
-                                  style: kWhiteButtonTextStyle,
-                                ))),
+                                child: ButtonForSaveAndFinish(title: 'Save',),
+                            )),
                       ),
-                    ),
                     const Spacer(),
                     Expanded(
                       flex: 6,
-                      child: ReusableContainerForButtons(
-                        // padding:
-                        //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                        colour: kWhiteWidgetColor,
-                        containerChild: Center(
+                      child: Center(
                             child: GestureDetector(
                                 onTap: () {
                                   // print("\n Left Ear: ");
                                   // print(leftEar);
                                   // print("\n Right Ear: ");
                                   // print(rightEar);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          AudioChartScreen(),
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => AudioChartScreen(),
                                     ),
                                   );
                                 },
-                                child: const Text(
-                                  'Finish',
-                                  style: kWhiteButtonTextStyle,
-                                ))),
+                                child:ButtonForSaveAndFinish(title: 'Finish'),
+                            )),
                       ),
-                    ),
                   ],
                 )),
             const Spacer(),
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class ButtonForSaveAndFinish extends StatelessWidget {
+  const ButtonForSaveAndFinish({
+    super.key,
+    required this.title,
+  });
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return ReusableContainerForButtons(
+      padding: EdgeInsets.all(10),
+      containerChild: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: kWhiteButtonTextStyle
+      ),
+      colour: kPureWhiteColor,
     );
   }
 }
