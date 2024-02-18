@@ -29,7 +29,6 @@ class PtaTestScreen extends StatelessWidget {
               child: Card(
                 elevation: 0,
                 margin: EdgeInsets.symmetric(horizontal: 25),
-
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 color: kVeryLightGreyColor,
@@ -60,7 +59,6 @@ class PtaTestScreen extends StatelessWidget {
               child: Card(
                 elevation: 0,
                 margin: EdgeInsets.symmetric(horizontal: 25),
-
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 color: kVeryLightGreyColor,
@@ -85,7 +83,6 @@ class PtaTestScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
             const Spacer(
               flex: 2,
             ),
@@ -98,7 +95,6 @@ class PtaTestScreen extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 25),
                   height: 20,
-                  
                   color: const Color.fromRGBO(40, 51, 74, 1),
                   child: const Center(
                       child: Text('Register',
@@ -114,20 +110,27 @@ class PtaTestScreen extends StatelessWidget {
               flex: 3,
             ),
             Expanded(
-              flex: 6,
+              flex: 7,
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
                   Expanded(
-                    flex:5,
+                    flex: 6,
                     child: SmallCard(
                         imagePath: 'assets/icons/puretone.png',
                         text: 'Pure Tone',
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/pureTone');
+                        }),
                   ),
                   const Spacer(),
-                  Expanded(flex:5,child: SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){})),
+                  Expanded(
+                      flex: 6,
+                      child: SmallCard(
+                          imagePath: 'assets/icons/boneConduct.png',
+                          text: 'Bone Conduct',
+                          onTap: () {})),
                   const Spacer(),
                 ],
               ),

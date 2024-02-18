@@ -359,71 +359,64 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                 ),
               ),
             ),
-            // Finish Button
-            GestureDetector(
-              onTap: () {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  show_alert_continue_with_next_ear(context);
-                });
-              },
-              child: Expanded(
-                  flex: 3,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 6,
-                        child: ReusableContainerForButtons(
-                          // padding:
-                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                          colour: kWhiteWidgetColor,
-                          containerChild: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    AudioData audio =
-                                        AudioData(freq: frequency, db: volume);
-                                    if (balance == 0) {
-                                      leftEar.add(audio);
-                                    } else if (balance == 1) {
-                                      rightEar.add(audio);
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Save',
-                                    style: kWhiteButtonTextStyle,
-                                  ))),
-                        ),
+            
+            Expanded(
+                flex: 3,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: ReusableContainerForButtons(
+                        // padding:
+                        //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                        colour: kWhiteWidgetColor,
+                        containerChild: Center(
+                            child: GestureDetector(
+                                onTap: () {
+                                  AudioData audio =
+                                      AudioData(freq: frequency, db: volume);
+                                  if (balance == 0) {
+                                    leftEar.add(audio);
+                                  } else if (balance == 1) {
+                                    rightEar.add(audio);
+                                  }
+                                },
+                                child: const Text(
+                                  'Save',
+                                  style: kWhiteButtonTextStyle,
+                                ))),
                       ),
-                      const Spacer(),
-                      Expanded(
-                        flex: 6,
-                        child: ReusableContainerForButtons(
-                          // padding:
-                          //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                          colour: kWhiteWidgetColor,
-                          containerChild: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    // print("\n Left Ear: ");
-                                    // print(leftEar);
-                                    // print("\n Right Ear: ");
-                                    // print(rightEar);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            AudioChartScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Finish',
-                                    style: kWhiteButtonTextStyle,
-                                  ))),
-                        ),
+                    ),
+                    const Spacer(),
+                    Expanded(
+                      flex: 6,
+                      child: ReusableContainerForButtons(
+                        // padding:
+                        //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                        colour: kWhiteWidgetColor,
+                        containerChild: Center(
+                            child: GestureDetector(
+                                onTap: () {
+                                  // print("\n Left Ear: ");
+                                  // print(leftEar);
+                                  // print("\n Right Ear: ");
+                                  // print(rightEar);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AudioChartScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'Finish',
+                                  style: kWhiteButtonTextStyle,
+                                ))),
                       ),
-                    ],
-                  )),
-            ),
+                    ),
+                  ],
+                )),
             const Spacer(),
           ],
         ),
