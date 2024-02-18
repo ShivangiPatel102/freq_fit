@@ -30,19 +30,33 @@ class Login extends StatelessWidget {
             const Spacer(),
             Expanded(flex: 2, child: Text('Welcome', style: large)),
             Expanded(flex: 2, child: Text('Back', style: large)),
-            const Spacer(),
+            const Spacer(flex: 2,),
             Expanded(
                 flex: 2,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        hintText: 'E-mail Address', hintStyle: small),
+                  ),
+                ),),
+            // password
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  obscureText: true,
                   decoration: InputDecoration(
-                      hintText: 'Username or e-mail', hintStyle: small),
-                )),
-            Expanded(
-                flex: 2,
-                child: TextField(
-                  decoration:
-                      InputDecoration(hintText: 'Password', hintStyle: small),
-                )),
+                    hintText: 'Password',
+                    hintStyle: small,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            // Forgot password
             Expanded(
               flex: 1,
               child: Row(
@@ -60,6 +74,8 @@ class Login extends StatelessWidget {
                 ],
               ),
             ),
+            Spacer(),
+            // Login Button
             Expanded(
               flex: 2,
               child: GestureDetector(
@@ -67,6 +83,7 @@ class Login extends StatelessWidget {
                   Navigator.pushNamed(context, '/home');
                 },
                 child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
                   color: const Color.fromRGBO(40, 51, 74, 1),
                   child: const Center(
                       child: Text('Login',
@@ -78,9 +95,10 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 7,
+            Spacer(
+              flex: 7,
             ),
+            //Dont have account register
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +124,7 @@ class Login extends StatelessWidget {
               ),
             ),
             const Spacer(
-              flex: 7,
+              flex: 1,
             ),
           ],
         ),

@@ -21,17 +21,21 @@ class HomeScreen extends StatelessWidget {
         width: double.infinity,
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Spacer(flex: 1,),
             Expanded(
               flex: 1,
-              child: const Text(
-                'What do you need?',
-                style: TextStyle(
-                    fontFamily: 'Blinker',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400),
+              child: Container(
+                padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: const Text(
+                  'What do you need?',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'Blinker',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
             ),
         
@@ -54,6 +58,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   // const Spacer(),
+                  const SizedBox(width: 20.0,),
                   Expanded(
                     flex: 6,
                     child: SmallCard(
@@ -70,8 +75,8 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-        
-        
+
+            const SizedBox(height: 20.0,),
             // Spacer(),
             Expanded(
               flex: 5,
@@ -91,6 +96,7 @@ class HomeScreen extends StatelessWidget {
                   
                   ),
                   // const Spacer(),
+                  const SizedBox(width: 20.0,),
                   Expanded(
                     flex: 6,
                     child: SmallCard(
@@ -106,7 +112,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
         
-            Spacer(),
+            //Spacer(),
             const Spacer(flex: 5,)
           ],
         ),

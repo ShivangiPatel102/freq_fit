@@ -16,10 +16,19 @@ class RegisterScreen extends StatelessWidget {
           children: [
             const Spacer(flex: 2,),
             Expanded(
+              flex: 3,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Image.asset('assets/icons/appIcon.png',height:70,),
+                  Container(
+                    height: 80,
+                    width: 80,
+                    child: Column(
+                      children: [
+                        Image.asset('assets/icons/appIcon.png',),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -43,13 +52,17 @@ class RegisterScreen extends StatelessWidget {
 
             const Spacer(),
 
+            Expanded(child: TextField(obscureText: true,decoration: InputDecoration(hintText: 'Password',hintStyle: sub ),)),
+
+            const Spacer(),
+
             Expanded(child: TextField(decoration: InputDecoration(hintText: 'Hospital / Clinic name ',hintStyle: TextStyle(fontWeight: FontWeight.w100,fontFamily: 'Blinker',fontSize: 20,), ),)),
 
             const Spacer(),
 
-             Expanded(child: TextField(decoration: InputDecoration(hintText: 'Doctor ',hintStyle: sub ),)),
+             Expanded(child: TextField(decoration: InputDecoration(hintText: 'Speciality ',hintStyle: sub ),)),
 
-            const Spacer(),
+            const Spacer(flex: 2,),
 
             Expanded(
               flex: 2,
@@ -62,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Spacer(),
+            const Spacer(flex: 1,),
 
             Expanded(
              

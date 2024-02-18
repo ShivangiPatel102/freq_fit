@@ -53,7 +53,7 @@ class AudioChartScreen extends ConsumerWidget {
                 child: SfCartesianChart(
                   primaryXAxis: const NumericAxis(
                     title: AxisTitle(text: 'Frequency'),
-                    interval: 200,
+                    interval: 500,
                   ),
                   primaryYAxis: const NumericAxis(
                     title: AxisTitle(text: 'Volume'),
@@ -65,14 +65,43 @@ class AudioChartScreen extends ConsumerWidget {
                       xValueMapper: (AudioData data, _) => data.freq,
                       yValueMapper: (AudioData data, _) => data.db,
                       name: 'Left Ear',
+                      markerSettings: MarkerSettings(
+                        isVisible: true,
+                        shape: DataMarkerType.diamond,
+                        color: Colors.blue, // Customize marker color
+                      ),
                     ),
                     LineSeries<AudioData, double>(
                       dataSource: rightEar,
                       xValueMapper: (AudioData data, _) => data.freq,
                       yValueMapper: (AudioData data, _) => data.db,
                       name: 'Right Ear',
+                      markerSettings: MarkerSettings(
+                        isVisible: true,
+                        shape: DataMarkerType.diamond,
+                        color: Colors.red, // Customize marker color
+                      ),
                     ),
                   ],
+                ),
+              ),
+            ),
+          ),
+          Spacer(),
+          Expanded(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              
+              child: ReusableContainerForButtons(
+                padding:EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                colour: kPureWhiteColor,
+                containerChild: Text(
+                  'Doctor\'s Remark',
+                  // textAlign: Text,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ),
             ),
