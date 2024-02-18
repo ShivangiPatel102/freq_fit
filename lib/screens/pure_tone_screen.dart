@@ -158,7 +158,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
             ),
             // frequency and decibel
             Expanded(
-              flex: 6,
+              flex: 7,
               child: Card(
                 elevation: 10,
                 shadowColor: Colors.black,
@@ -193,9 +193,11 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
               ),
             ),
 
+            const Spacer(),
+
             // Control Buttons
             Expanded(
-              flex: 4,
+              flex: 5,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
                 child: Row(
@@ -203,59 +205,62 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                     // Frequency Buttons
                     Expanded(
                       flex: 3,
-                      child: Container(
-                        // padding: EdgeInsets.all(7),
-                        child: Column(
-                          children: [
-                            Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (frequency < 1000) {
+                                    frequency += 200;
+                                  } else if (frequency >= 1000 &&
+                                      frequency < 2000) {
+                                    frequency += 1000;
+                                  } else if (frequency >= 2000 &&
+                                      frequency < 12000) {
+                                    frequency += 2000;
+                                  }
+                                  SoundGenerator.setFrequency(frequency);
+                                });
+                              },
+                              child: ReusableContainerForButtons(
+                                width: 60,
+                                containerChild: Center(
+                                  child: Image.asset('assets/icons/caret-up.png',height: 25,),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          Expanded(
                               flex: 3,
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    if (frequency < 1000) {
-                                      frequency += 200;
-                                    } else if (frequency >= 1000 &&
-                                        frequency < 2000) {
-                                      frequency += 1000;
-                                    } else if (frequency >= 2000 &&
-                                        frequency < 12000) {
-                                      frequency += 2000;
+                                    if (frequency > 2000 &&
+                                        frequency <= 12000) {
+                                      frequency -= 2000;
+                                    } else if (frequency > 1000 &&
+                                        frequency <= 2000) {
+                                      frequency -= 1000;
+                                    } else if (frequency > 200 &&
+                                        frequency <= 1000) {
+                                      frequency -= 200;
+                                    } else if (frequency == 12000) {
+                                      isFinishButtonActive = true;
                                     }
                                     SoundGenerator.setFrequency(frequency);
                                   });
                                 },
-                                child: const ContainerFrequenyButton(
-                                  iconData: Icons.arrow_drop_up_sharp,
-                                ),
-                              ),
-                            ),
-                            const Spacer(),
-                            Expanded(
-                                flex: 3,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (frequency > 2000 &&
-                                          frequency <= 12000) {
-                                        frequency -= 2000;
-                                      } else if (frequency > 1000 &&
-                                          frequency <= 2000) {
-                                        frequency -= 1000;
-                                      } else if (frequency > 200 &&
-                                          frequency <= 1000) {
-                                        frequency -= 200;
-                                      } else if (frequency == 12000) {
-                                        isFinishButtonActive = true;
-                                      }
-                                      SoundGenerator.setFrequency(frequency);
-                                    });
-                                  },
-                                  child: const ContainerFrequenyButton(
-                                    iconData: Icons.arrow_drop_down_sharp,
+                                child: ReusableContainerForButtons(
+                                  width: 60,
+                                  containerChild: Center(
+                                    child: Image.asset('assets/icons/caret-down.png',height: 25,),
                                   ),
-                                )),
-                          ],
-                        ),
+                                ),
+                              )),
+                        ],
                       ),
                     ),
                     // Stop and Start Button
@@ -307,8 +312,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                           children: [
                             Expanded(
                               flex: 3,
-                              child: ReusableContainerForButtons(
-                                containerChild: GestureDetector(
+                              child: GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       if (volume < 90) {
@@ -317,21 +321,20 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                       SoundGenerator.setVolume(volume);
                                     });
                                   },
-                                  child: Container(
-                                    margin: const EdgeInsets.all(15),
-                                    child: const FaIcon(
-                                      FontAwesomeIcons.volumeHigh,
-                                      color: kPureWhiteColor,
-                                    ),
+                                  child:  ReusableContainerForButtons(
+                                    containerChild: Center(
+                                    child: Image.asset('assets/icons/volumeUp.png',height: 25,),
+                                  ),
+                                    width: 60,
+                                    colour: kNavyBlueColor ,
                                   ),
                                 ),
                               ),
-                            ),
+
                             const Spacer(),
                             Expanded(
                               flex: 3,
-                              child: ReusableContainerForButtons(
-                                containerChild: GestureDetector(
+                              child: GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       if (volume > 0) {
@@ -340,17 +343,16 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                       SoundGenerator.setVolume(volume);
                                     });
                                   },
-                                  child: Container(
-                                    margin: const EdgeInsets.all(19),
-                                    child: const FaIcon(
-                                      FontAwesomeIcons.volumeLow,
-                                      color: kPureWhiteColor,
-                                      // size: 25,
+                                  child: ReusableContainerForButtons(
+                                    containerChild: Center(
+                                      child: Image.asset('assets/icons/volumeDown.png',height: 25,),
                                     ),
+                                    width: 60,
+                                    colour: kNavyBlueColor ,
                                   ),
                                 ),
                               ),
-                            ),
+
                           ],
                         ),
                       ),
@@ -359,7 +361,11 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                 ),
               ),
             ),
-            
+
+
+            const Spacer(),
+
+
             Expanded(
                 flex: 3,
                 child: Row(
@@ -400,7 +406,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                       ),
                   ],
                 )),
-            const Spacer(),
+           // const Spacer(),
           ],
         ),
       ),
