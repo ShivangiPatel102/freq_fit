@@ -114,20 +114,26 @@ class PtaTestScreen extends StatelessWidget {
               flex: 3,
             ),
             Expanded(
-              flex: 5,
+              flex: 6,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SmallCard(
-                      imagePath: 'assets/icons/puretone.png',
-                      text: 'Pure Tone',
-                      onTap: () {}),
-                  //SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){}),
+                  const Spacer(),
+                  Expanded(
+                    flex:5,
+                    child: SmallCard(
+                        imagePath: 'assets/icons/puretone.png',
+                        text: 'Pure Tone',
+                        onTap: () {}),
+                  ),
+                  const Spacer(),
+                  Expanded(flex:5,child: SmallCard(imagePath: 'assets/icons/boneConduct.png', text: 'Bone Conduct', onTap: (){})),
+                  const Spacer(),
                 ],
               ),
             ),
             const Spacer(
-              flex: 7,
+              flex: 5,
             ),
           ],
         ),
