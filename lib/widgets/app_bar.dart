@@ -22,8 +22,8 @@ class AppBarCustom extends StatelessWidget {
           Scaffold.of(context).openDrawer();
         },
         child: Container(
-        padding: const EdgeInsetsDirectional.only(start: 35.0,top: 15.0,bottom: 10.0),
-        child: FaIcon(FontAwesomeIcons.bars,size: 25.0,),
+        padding: const EdgeInsetsDirectional.only(start: 37.0,top: 17.0,bottom: 10.0),
+        child: FaIcon(FontAwesomeIcons.bars,size: 23.0,),
       ),),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -38,7 +38,7 @@ class AppBarCustom extends StatelessWidget {
             )
           : RichText(
               text: const TextSpan(
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
                     style: TextStyle(color: kNavyBlueColor),
@@ -55,7 +55,7 @@ class AppBarCustom extends StatelessWidget {
       actions: const [
         LetterAvatar(name: 'Shivangi'),
         SizedBox(
-          width: 20,
+          width: 25,
         ),
       ],
     );

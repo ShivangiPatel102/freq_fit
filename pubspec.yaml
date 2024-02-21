@@ -24,7 +24,9 @@ dependencies:
   syncfusion_flutter_charts: ^24.2.6
   flutter_riverpod: ^2.4.9
   riverpod: ^2.4.9
-
+  firebase_core: ^2.25.4
+  firebase_auth: ^4.17.5
+  cloud_firestore: ^4.15.5
 
 
 dev_dependencies:

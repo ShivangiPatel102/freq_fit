@@ -30,17 +30,20 @@ class Login extends StatelessWidget {
             const Spacer(),
             Expanded(flex: 2, child: Text('Welcome', style: large)),
             Expanded(flex: 2, child: Text('Back', style: large)),
-            const Spacer(flex: 2,),
+            const Spacer(
+              flex: 2,
+            ),
             Expanded(
-                flex: 2,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        hintText: 'E-mail Address', hintStyle: small),
-                  ),
-                ),),
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      hintText: 'E-mail Address', hintStyle: small),
+                ),
+              ),
+            ),
             // password
             Expanded(
               flex: 2,
@@ -55,7 +58,9 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             // Forgot password
             Expanded(
               flex: 1,
@@ -77,13 +82,18 @@ class Login extends StatelessWidget {
             Spacer(),
             // Login Button
             Expanded(
-              flex: 2,
+              flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/home');
+                  // Add a 2-second delay using Future.delayed
+                  Future.delayed(Duration(seconds: 2), () {
+                    // Code to be executed after the delay
+                    // For example, you can navigate to another screen
+                    Navigator.pushNamed(context, '/home');
+                  });
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 25),
                   color: const Color.fromRGBO(40, 51, 74, 1),
                   child: const Center(
                       child: Text('Login',
@@ -96,7 +106,7 @@ class Login extends StatelessWidget {
               ),
             ),
             Spacer(
-              flex: 7,
+              flex: 2,
             ),
             //Dont have account register
             Expanded(

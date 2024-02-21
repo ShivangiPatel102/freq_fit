@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
 
+  late String email;
+  late String password;
+  late String firstName;
+  late String lastName;
+
+  final _auth = FirebaseAuth.instance;
   final TextStyle sub = const TextStyle(fontWeight: FontWeight.w100,fontFamily: 'Blinker',fontSize: 20,);
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,7 @@ const kNavyBlueColor = Color(0xff28334A);
 const kWhiteBgColor = Color(0xffEFEEEE);
 const kWhiteWidgetColor = Color(0xfffefcfc);
 const kVeryLightGreyColor = Color(0xffF6F4F4);
+const kButtonColor = Color(0xffFEFCFC);
 
 // textstyles
 const kTitleOfAppBarTextStyle = TextStyle(
@@ -41,3 +42,4 @@ const TextStyle large = const TextStyle(
   fontSize: 50,
   color: Color.fromRGBO(40, 51, 74, 1),
 );
+

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "10272262720",
+    "project_id": "freqfit-98e73",
+    "storage_bucket": "freqfit-98e73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10272262720:android:02c15ad5d5989e127ceda5",
+        "android_client_info": {
+          "package_name": "com.example.freq_fit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCld4bXqEI1i_InzZad3xQZWLe-5p_cPZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

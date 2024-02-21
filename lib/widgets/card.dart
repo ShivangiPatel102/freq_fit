@@ -20,27 +20,19 @@ class SmallCard extends StatelessWidget {
       child: Card(
         elevation: 5,
         child: Container(
-          // width: double.infinity,
-          //height: 151,
-          
           decoration: BoxDecoration(
-            
             borderRadius: BorderRadius.circular(10.0),
             color: kWhiteWidgetColor,
-            
-            
           ),
-          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Spacer(),
               Expanded(
                 flex: 2,
-                child: Image.asset(imagePath,
-                    fit: BoxFit.cover),
+                child: Image.asset(imagePath, fit: BoxFit.cover),
               ),
-             // const Spacer(),
+              // const Spacer(),
               Divider(
                 color: kNavyBlueColor,
                 thickness: 1.0,
@@ -53,12 +45,10 @@ class SmallCard extends StatelessWidget {
                 child: Text(text,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-        
                         fontSize: 16.0,
                         fontFamily: 'Rubik',
                         color: Color.fromRGBO(40, 51, 74, 1))),
               ),
-              
             ],
           ),
         ),

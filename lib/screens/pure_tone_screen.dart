@@ -4,11 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
 import 'package:freq_fit/providers/audio_points.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/button_for_save_and_finish.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
 import 'package:freq_fit/widgets/container_frequency_button.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:freq_fit/widgets/show_alert_continue_with_next_ear.dart';
+import 'package:freq_fit/widgets/show_finish_alert.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:sound_generator/sound_generator.dart';
 import 'package:sound_generator/waveTypes.dart';
@@ -38,16 +40,37 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
   List<int>? oneCycleData;
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
+  Color buttonColor = kButtonColor;
+  // int toggleSwitchIndex = 0;
+  int finishButtonPressCount = 0;
 
-  // List<AudioData> rightEar = [];
+  void _handleFinishButtonPress() {
+    setState(() {
+      finishButtonPressCount++;
+
+      if (finishButtonPressCount == 1) {
+        // show_alert_continue_with_next_ear(context);
+        show_alert_continue_with_next_ear(context, () {
+          
+            setState(() {
+               balance = 1;
+              print(balance);
+            });
+          
+        });
+      } else if (finishButtonPressCount > 1) {
+        show_finish_alert(context);
+      }
+    });
+    print(finishButtonPressCount);
+  }
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
       show_Alert_Check_Headphone(context);
+    } else if (_headsetState == HeadsetState.CONNECT) {
+      show_Alert_Select_Ear(context);
     }
-    // else if (_headsetState == HeadsetState.CONNECT) {
-    //   show_Alert_Select_Ear(context);
-    // }
   }
 
   @override
@@ -55,17 +78,15 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
     super.initState();
 
     _headsetPlugin.requestPermission();
-    // _headsetPlugin.getCurrentState.then((val) {
-    //   setState(() {
-    //     _headsetState = val;
-    //
-    //     WidgetsBinding.instance.addPostFrameCallback((_) {
-    //       _checkAndShowAlert();
-    //
-    //
-    //     });
-    //   });
-    // });
+    _headsetPlugin.getCurrentState.then((val) {
+      setState(() {
+        _headsetState = val;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          // _checkAndShowAlert();
+        });
+      });
+    });
 
     _headsetPlugin.setListener((val) {
       setState(() {
@@ -199,7 +220,8 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
             Expanded(
               flex: 5,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
                 child: Row(
                   children: [
                     // Frequency Buttons
@@ -227,7 +249,10 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                               child: ReusableContainerForButtons(
                                 width: 60,
                                 containerChild: Center(
-                                  child: Image.asset('assets/icons/caret-up.png',height: 25,),
+                                  child: Image.asset(
+                                    'assets/icons/caret-up.png',
+                                    height: 25,
+                                  ),
                                 ),
                               ),
                             ),
@@ -256,7 +281,10 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                 child: ReusableContainerForButtons(
                                   width: 60,
                                   containerChild: Center(
-                                    child: Image.asset('assets/icons/caret-down.png',height: 25,),
+                                    child: Image.asset(
+                                      'assets/icons/caret-down.png',
+                                      height: 25,
+                                    ),
                                   ),
                                 ),
                               )),
@@ -313,46 +341,50 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                             Expanded(
                               flex: 3,
                               child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (volume < 90) {
-                                        volume += 5;
-                                      }
-                                      SoundGenerator.setVolume(volume);
-                                    });
-                                  },
-                                  child:  ReusableContainerForButtons(
-                                    containerChild: Center(
-                                    child: Image.asset('assets/icons/volumeUp.png',height: 25,),
+                                onTap: () {
+                                  setState(() {
+                                    if (volume < 90) {
+                                      volume += 5;
+                                    }
+                                    SoundGenerator.setVolume(volume);
+                                  });
+                                },
+                                child: ReusableContainerForButtons(
+                                  containerChild: Center(
+                                    child: Image.asset(
+                                      'assets/icons/volumeUp.png',
+                                      height: 25,
+                                    ),
                                   ),
-                                    width: 60,
-                                    colour: kNavyBlueColor ,
-                                  ),
+                                  width: 60,
+                                  colour: kNavyBlueColor,
                                 ),
                               ),
-
+                            ),
                             const Spacer(),
                             Expanded(
                               flex: 3,
                               child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (volume > 0) {
-                                        volume -= 5;
-                                      }
-                                      SoundGenerator.setVolume(volume);
-                                    });
-                                  },
-                                  child: ReusableContainerForButtons(
-                                    containerChild: Center(
-                                      child: Image.asset('assets/icons/volumeDown.png',height: 25,),
+                                onTap: () {
+                                  setState(() {
+                                    if (volume > 0) {
+                                      volume -= 5;
+                                    }
+                                    SoundGenerator.setVolume(volume);
+                                  });
+                                },
+                                child: ReusableContainerForButtons(
+                                  containerChild: Center(
+                                    child: Image.asset(
+                                      'assets/icons/volumeDown.png',
+                                      height: 25,
                                     ),
-                                    width: 60,
-                                    colour: kNavyBlueColor ,
                                   ),
+                                  width: 60,
+                                  colour: kNavyBlueColor,
                                 ),
                               ),
-
+                            ),
                           ],
                         ),
                       ),
@@ -362,9 +394,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
               ),
             ),
 
-
             const Spacer(),
-
 
             Expanded(
                 flex: 3,
@@ -372,65 +402,49 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                   children: [
                     Expanded(
                       flex: 6,
-                      child:  Center(
-                            child: GestureDetector(
-                                onTap: () {
-                                  AudioData audio =
-                                      AudioData(freq: frequency, db: volume);
-                                  if (balance == 0) {
-                                    leftEar.add(audio);
-                                  } else if (balance == 1) {
-                                    rightEar.add(audio);
-                                  }
-                                },
-                                child: ButtonForSaveAndFinish(title: 'Save',),
-                            )),
-                      ),
+                      child: Center(
+                          child: Container(
+                        width: double.infinity,
+                        child: ButtonForSaveAndFinish(
+                          title: 'Save',
+                          onPressed: () {
+                            AudioData audio =
+                                AudioData(freq: frequency, db: volume);
+                            if (balance == 0) {
+                              leftEar.add(audio);
+                            } else if (balance == 1) {
+                              rightEar.add(audio);
+                            }
+                          },
+                        ),
+                      )),
+                    ),
                     const Spacer(),
                     Expanded(
                       flex: 6,
                       child: Center(
-                            child: GestureDetector(
-                                onTap: () {
-                                  // print("\n Left Ear: ");
-                                  // print(leftEar);
-                                  // print("\n Right Ear: ");
-                                  // print(rightEar);
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => AudioChartScreen(),
-                                    ),
-                                  );
-                                },
-                                child:ButtonForSaveAndFinish(title: 'Finish'),
-                            )),
-                      ),
+                          child: Container(
+                        width: double.infinity,
+                        child: ButtonForSaveAndFinish(
+                          title: 'Finish',
+                          onPressed: () {
+                            _handleFinishButtonPress();
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => AudioChartScreen(),
+                            //   ),
+                            // );
+                          },
+                        ),
+                      )),
+                    ),
                   ],
                 )),
-           // const Spacer(),
+            // const Spacer(),
           ],
         ),
       ),
-    );
-  }
-}
-
-
-class ButtonForSaveAndFinish extends StatelessWidget {
-  const ButtonForSaveAndFinish({
-    super.key,
-    required this.title,
-  });
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return ReusableContainerForButtons(
-      padding: EdgeInsets.all(10),
-      containerChild: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: kWhiteButtonTextStyle
-      ),
-      colour: kPureWhiteColor,
     );
   }
 }

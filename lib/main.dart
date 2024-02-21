@@ -1,15 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freq_fit/firebase_options.dart';
 import 'package:freq_fit/screens/home_screen.dart';
 import 'package:freq_fit/screens/login_screen.dart';
-import 'package:freq_fit/screens/pta_results_screen.dart';
+// import 'package:freq_fit/screens/pta_results_screen.dart';
 import 'package:freq_fit/screens/pta_test_screen.dart';
 import 'package:freq_fit/screens/pure_tone_screen.dart';
 import 'package:freq_fit/screens/registration_screen.dart';
 import 'package:freq_fit/screens/splash_screen.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print('firebase initialised');
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -19,18 +25,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xffefeeee)),
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-        '/login': (context) =>  Login(),
-        '/register' : (context) =>  RegisterScreen(),
-        '/home' : (context) =>  HomeScreen(),
-        '/ptaTest': (context) =>  PtaTestScreen(),
-        '/pureTone': (context) =>  PureToneScreen(),
-        '/ptaResults': (context) =>  PtaResultsScreen(),
-
+        '/login': (context) => Login(),
+        '/register': (context) => RegisterScreen(),
+        '/home': (context) => HomeScreen(),
+        '/ptaTest': (context) => PtaTestScreen(),
+        '/pureTone': (context) => PureToneScreen(),
+        // '/ptaResults': (context) => PtaResultsScreen(),
       },
     );
   }
