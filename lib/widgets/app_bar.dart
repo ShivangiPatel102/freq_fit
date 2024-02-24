@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freq_fit/constants.dart';
 import 'package:freq_fit/widgets/letter_avatar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppBarCustom extends StatelessWidget {
   const AppBarCustom({
@@ -11,13 +12,20 @@ class AppBarCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: kWhiteBgColor,
+      backgroundColor: kWhiteWidgetColor,
       elevation: 1,
       shadowColor: Colors.black,
       // toolbarHeight: 80.0,
       centerTitle: true,
-
-      shape: RoundedRectangleBorder(
+      leading: GestureDetector(
+        onTap: (){
+          Scaffold.of(context).openDrawer();
+        },
+        child: Container(
+        padding: const EdgeInsetsDirectional.only(start: 37.0,top: 17.0,bottom: 10.0),
+        child: FaIcon(FontAwesomeIcons.bars,size: 23.0,),
+      ),),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50.0),
           bottomRight: Radius.circular(50.0),
@@ -29,8 +37,8 @@ class AppBarCustom extends StatelessWidget {
               style: kTitleOfAppBarTextStyle,
             )
           : RichText(
-              text: TextSpan(
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              text: const TextSpan(
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
                     style: TextStyle(color: kNavyBlueColor),
@@ -44,10 +52,10 @@ class AppBarCustom extends StatelessWidget {
               ),
             ),
 
-      actions: [
+      actions: const [
         LetterAvatar(name: 'Shivangi'),
         SizedBox(
-          width: 20,
+          width: 25,
         ),
       ],
     );

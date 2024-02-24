@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freq_fit/constants.dart';
-import 'package:freq_fit/models/AudioData.dart';
-import 'package:freq_fit/screens/audio_chart.dart';
+import 'package:freq_fit/providers/audio_points.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/button_for_save_and_finish.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
-import 'package:freq_fit/widgets/container_frequency_button.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:freq_fit/widgets/show_alert_continue_with_next_ear.dart';
+import 'package:freq_fit/widgets/show_finish_alert.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:sound_generator/sound_generator.dart';
 import 'package:sound_generator/waveTypes.dart';
 import 'package:freq_fit/widgets/show_alert_check_headphone.dart';
 import 'package:freq_fit/widgets/show_alert_select_ear.dart';
 import 'package:headset_connection_event/headset_event.dart';
+import '../models/AudioData.dart';
 
-class PureToneScreen extends StatefulWidget {
+class PureToneScreen extends ConsumerStatefulWidget {
   @override
-  State<PureToneScreen> createState() => _PureToneScreenState();
+  _PureToneScreenState createState() => _PureToneScreenState();
 }
 
-class _PureToneScreenState extends State<PureToneScreen> {
+class _PureToneScreenState extends ConsumerState<PureToneScreen> {
   final _headsetPlugin = HeadsetEvent();
   HeadsetState? _headsetState;
 
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
-  double frequency = 200;
+  double frequency = 250;
   int balance = 0;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
@@ -35,10 +36,28 @@ class _PureToneScreenState extends State<PureToneScreen> {
   List<int>? oneCycleData;
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
+  Color buttonColor = kButtonColor;
+  int finishButtonPressCount = 0;
 
-  List<AudioData> leftEar = [];
-  List<AudioData> rightEar = [];
+  void _handleFinishButtonPress() {
+    setState(() {
+      finishButtonPressCount++;
 
+      if (finishButtonPressCount == 1) {
+        // show_alert_continue_with_next_ear(context);
+        show_alert_continue_with_next_ear(context, () {
+          setState(() {
+            balance = 1;
+            frequency = 250;
+            // print(balance);
+          });
+        });
+      } else if (finishButtonPressCount > 1) {
+        show_finish_alert(context);
+      }
+    });
+    // print(finishButtonPressCount);
+  }
 
   void _checkAndShowAlert() {
     if (_headsetState != HeadsetState.CONNECT) {
@@ -56,7 +75,6 @@ class _PureToneScreenState extends State<PureToneScreen> {
     _headsetPlugin.getCurrentState.then((val) {
       setState(() {
         _headsetState = val;
-
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _checkAndShowAlert();
         });
@@ -67,14 +85,12 @@ class _PureToneScreenState extends State<PureToneScreen> {
       setState(() {
         _headsetState = val;
         if (_headsetState != HeadsetState.CONNECT) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            show_Alert_Check_Headphone(context);
-          });
+          WidgetsBinding.instance.addPostFrameCallback((_) {});
         } else {
           Navigator.pop(context);
         }
 
-        // _checkAndShowAlert();
+        _checkAndShowAlert();
       });
     });
 
@@ -95,10 +111,14 @@ class _PureToneScreenState extends State<PureToneScreen> {
     //Force update for one time
     SoundGenerator.refreshOneCycleData();
     SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
+    SoundGenerator.setFrequency(0);
+    SoundGenerator.setVolume(0);
   }
 
   @override
   Widget build(BuildContext context) {
+    List<AudioData> leftEar = ref.read(audioDataPointsProvider).leftEarPoints;
+    List<AudioData> rightEar = ref.read(audioDataPointsProvider).rightEarPoints;
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(80), // Adjust height as needed
@@ -152,7 +172,7 @@ class _PureToneScreenState extends State<PureToneScreen> {
             ),
             // frequency and decibel
             Expanded(
-              flex: 6,
+              flex: 7,
               child: Card(
                 elevation: 10,
                 shadowColor: Colors.black,
@@ -186,9 +206,12 @@ class _PureToneScreenState extends State<PureToneScreen> {
                 ),
               ),
             ),
+
+            const Spacer(),
+
             // Control Buttons
             Expanded(
-              flex: 4,
+              flex: 5,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
@@ -197,60 +220,63 @@ class _PureToneScreenState extends State<PureToneScreen> {
                     // Frequency Buttons
                     Expanded(
                       flex: 3,
-                      child: Container(
-                        // padding: EdgeInsets.all(7),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    if (frequency < 1000) {
-                                      frequency += 200;
-                                    } else if (frequency >= 1000 &&
-                                        frequency < 2000) {
-                                      frequency += 1000;
-                                    } else if (frequency >= 2000 &&
-                                        frequency < 12000) {
-                                      frequency += 2000;
-                                    }
-                                    SoundGenerator.setFrequency(frequency);
-                                  });
-                                },
-                                child: const ContainerFrequenyButton(
-                                  iconData: Icons.arrow_drop_up_sharp,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (frequency < 8000) {
+                                    frequency += frequency;
+                                  }
+                                  // Ensure the frequency does not exceed the maximum limit
+                                  frequency = frequency.clamp(250, 8000);
+                                  SoundGenerator.setFrequency(frequency);
+                                });
+                              },
+                              child: ReusableContainerForButtons(
+                                width: 60,
+                                containerChild: Center(
+                                  child: Image.asset(
+                                    'assets/icons/caret-up.png',
+                                    height: 25,
+                                  ),
                                 ),
                               ),
                             ),
-                            const Spacer(),
-                            Expanded(
-                                flex: 3,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (frequency > 2000 &&
-                                          frequency <= 12000) {
-                                        frequency -= 2000;
-                                      } else if (frequency > 1000 &&
-                                          frequency <= 2000) {
-                                        frequency -= 1000;
-                                      } else if (frequency > 200 &&
-                                          frequency <= 1000) {
-                                        frequency -= 200;
-                                      } else if (frequency == 12000) {
-                                        isFinishButtonActive = true;
-                                      }
-                                      SoundGenerator.setFrequency(frequency);
-                                    });
-                                  },
-                                  child: const ContainerFrequenyButton(
-                                    iconData: Icons.arrow_drop_down_sharp,
+                          ),
+                          const Spacer(),
+                          Expanded(
+                              flex: 3,
+                              child: GestureDetector(
+                                
+                                onTap: () {
+                                  setState(() {
+                                    if (frequency > 250) {
+                                      frequency -= frequency / 2;
+                                    }
+                                    // Ensure the frequency does not go below the minimum limit
+                                    frequency = frequency.clamp(250, 8000);
+                                    SoundGenerator.setFrequency(frequency);
+                                  });
+                                },
+
+                                child: ReusableContainerForButtons(
+                                  width: 60,
+                                  containerChild: Center(
+                                    child: Image.asset(
+                                      'assets/icons/caret-down.png',
+                                      height: 25,
+                                    ),
                                   ),
-                                )),
-                          ],
-                        ),
+                                ),
+                              )),
+                        ],
                       ),
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     // Stop and Start Button
                     Expanded(
@@ -268,15 +294,6 @@ class _PureToneScreenState extends State<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
-                              AudioData audio = AudioData(freq: frequency, db: volume);
-                              if(balance==0)
-                              {
-                                leftEar.add(audio);
-                              }
-                              else if(balance==1)
-                              {
-                                rightEar.add(audio);
-                              }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -293,6 +310,9 @@ class _PureToneScreenState extends State<PureToneScreen> {
                                 vertical: 28, horizontal: 0),
                           ),
                         )),
+                    SizedBox(
+                      width: 10,
+                    ),
                     // Decibel Buttons
                     Expanded(
                       flex: 3,
@@ -301,47 +321,48 @@ class _PureToneScreenState extends State<PureToneScreen> {
                           children: [
                             Expanded(
                               flex: 3,
-                              child: ReusableContainerForButtons(
-                                containerChild: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (volume < 90) {
-                                        volume += 10;
-                                      }
-                                      SoundGenerator.setVolume(volume);
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.all(15),
-                                    child: const FaIcon(
-                                      FontAwesomeIcons.volumeHigh,
-                                      color: kPureWhiteColor,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (volume < 90) {
+                                      volume += 5;
+                                    }
+                                    SoundGenerator.setVolume(volume/100);
+                                  });
+                                },
+                                child: ReusableContainerForButtons(
+                                  containerChild: Center(
+                                    child: Image.asset(
+                                      'assets/icons/volumeUp.png',
+                                      height: 25,
                                     ),
                                   ),
+                                  width: 60,
+                                  colour: kNavyBlueColor,
                                 ),
                               ),
                             ),
                             const Spacer(),
                             Expanded(
                               flex: 3,
-                              child: ReusableContainerForButtons(
-                                containerChild: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (volume > 0) {
-                                        volume -= 10;
-                                      }
-                                      SoundGenerator.setVolume(volume);
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.all(19),
-                                    child: const FaIcon(
-                                      FontAwesomeIcons.volumeLow,
-                                      color: kPureWhiteColor,
-                                      // size: 25,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (volume > 0) {
+                                      volume -= 5;
+                                    }
+                                    SoundGenerator.setVolume(volume/100);
+                                  });
+                                },
+                                child: ReusableContainerForButtons(
+                                  containerChild: Center(
+                                    child: Image.asset(
+                                      'assets/icons/volumeDown.png',
+                                      height: 25,
                                     ),
                                   ),
+                                  width: 60,
+                                  colour: kNavyBlueColor,
                                 ),
                               ),
                             ),
@@ -353,99 +374,53 @@ class _PureToneScreenState extends State<PureToneScreen> {
                 ),
               ),
             ),
-            // Finish Button
-            GestureDetector(
 
-              onTap: (){
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  show_alert_continue_with_next_ear(context);
-                });
-              },
-              child: Expanded(
-                  flex: 3,
-                  child: ReusableContainerForButtons(
-                    // padding:
-                    //margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                    colour:  kLightGreyColor,
-                    width: double.infinity,
-                    containerChild: Center(
-                      child: GestureDetector(
-                        onTap:(){
-                          print("\n Left Ear: ");
-                          print(leftEar);
-                          print("\n Right Ear: ");
-                          print(rightEar);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AudioChartScreen(
-                                leftEar: leftEar,
-                                rightEar: rightEar,
-                              ),
-                            ),
-                          );
-                        },
-                        child:Text(
-                          'Finish',
-                          style: TextStyle(
-                              color: Color(0xff28334A50),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                        )
-                      )
-                    ),
-                  )),
-            ),
             const Spacer(),
+
+            Expanded(
+                flex: 3,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: Center(
+                          child: Container(
+                        width: double.infinity,
+                        child: ButtonForSaveAndFinish(
+                          title: 'Save',
+                          onPressed: () {
+                            AudioData audio =
+                                AudioData(freq: frequency, db: volume);
+                            if (balance == 0) {
+                              leftEar.add(audio);
+                            } else if (balance == 1) {
+                              rightEar.add(audio);
+                            }
+                            setState(() {
+                              volume = 0;
+                            });
+                          },
+                        ),
+                      )),
+                    ),
+                    const Spacer(),
+                    Expanded(
+                      flex: 6,
+                      child: Center(
+                          child: Container(
+                        width: double.infinity,
+                        child: ButtonForSaveAndFinish(
+                          title: 'Finish',
+                          onPressed: () {
+                            _handleFinishButtonPress();
+                          },
+                        ),
+                      )),
+                    ),
+                  ],
+                )),
+          
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ButtonForSaveAndCancel extends StatelessWidget {
-  const ButtonForSaveAndCancel({
-    super.key,
-    required this.title,
-  });
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return ReusableContainerForButtons(
-      padding: EdgeInsets.all(10),
-      containerChild: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: kNavyBlueColor,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      colour: kPureWhiteColor,
-    );
-  }
-}
-
-class FinishButton extends StatelessWidget {
-  const FinishButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ReusableContainerForButtons(
-      margin: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-      colour: kLightGreyColor,
-      width: double.infinity,
-      containerChild: Center(
-        child: Text(
-          'Finish',
-          style: TextStyle(
-              color: Color(0xff28334A50),
-              fontSize: 16,
-              fontWeight: FontWeight.w600),
         ),
       ),
     );
