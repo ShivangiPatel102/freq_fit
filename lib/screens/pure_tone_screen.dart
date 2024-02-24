@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freq_fit/constants.dart';
 import 'package:freq_fit/providers/audio_points.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
 import 'package:freq_fit/widgets/button_for_save_and_finish.dart';
 import 'package:freq_fit/widgets/container_displaying_fq_and_db.dart';
-import 'package:freq_fit/widgets/container_frequency_button.dart';
 import 'package:freq_fit/widgets/my_drawer.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:freq_fit/widgets/show_alert_continue_with_next_ear.dart';
@@ -17,9 +15,7 @@ import 'package:sound_generator/waveTypes.dart';
 import 'package:freq_fit/widgets/show_alert_check_headphone.dart';
 import 'package:freq_fit/widgets/show_alert_select_ear.dart';
 import 'package:headset_connection_event/headset_event.dart';
-
 import '../models/AudioData.dart';
-import 'audio_chart.dart';
 
 class PureToneScreen extends ConsumerStatefulWidget {
   @override
@@ -41,7 +37,6 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
   String buttonText = 'Start';
   bool isFinishButtonActive = false;
   Color buttonColor = kButtonColor;
-  // int toggleSwitchIndex = 0;
   int finishButtonPressCount = 0;
 
   void _handleFinishButtonPress() {
@@ -54,14 +49,14 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
           setState(() {
             balance = 1;
             frequency = 250;
-            print(balance);
+            // print(balance);
           });
         });
       } else if (finishButtonPressCount > 1) {
         show_finish_alert(context);
       }
     });
-    print(finishButtonPressCount);
+    // print(finishButtonPressCount);
   }
 
   void _checkAndShowAlert() {
@@ -255,23 +250,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                           Expanded(
                               flex: 3,
                               child: GestureDetector(
-                                // onTap: () {
-                                //   setState(() {
-                                //     if (frequency > 2000 &&
-                                //         frequency <= 12000) {
-                                //       frequency -= 2000;
-                                //     } else if (frequency > 1000 &&
-                                //         frequency <= 2000) {
-                                //       frequency -= 1000;
-                                //     } else if (frequency > 200 &&
-                                //         frequency <= 1000) {
-                                //       frequency -= 200;
-                                //     } else if (frequency == 12000) {
-                                //       isFinishButtonActive = true;
-                                //     }
-                                //     SoundGenerator.setFrequency(frequency);
-                                //   });
-                                // },
+                                
                                 onTap: () {
                                   setState(() {
                                     if (frequency > 250) {
@@ -315,16 +294,6 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
-
-                              // AudioData audio = AudioData(freq: frequency, db: volume);
-                              // if(balance==0)
-                              // {
-                              //   leftEar.add(audio);
-                              // }
-                              // else if(balance==1)
-                              // {
-                              //   rightEar.add(audio);
-                              // }
                             }
                           },
                           child: ReusableContainerForButtons(
@@ -450,7 +419,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                     ),
                   ],
                 )),
-            // const Spacer(),
+          
           ],
         ),
       ),
