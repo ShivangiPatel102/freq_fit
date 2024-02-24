@@ -346,7 +346,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                     if (volume < 90) {
                                       volume += 5;
                                     }
-                                    SoundGenerator.setVolume(volume);
+                                    SoundGenerator.setVolume(volume/100);
                                   });
                                 },
                                 child: ReusableContainerForButtons(
@@ -370,7 +370,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                     if (volume > 0) {
                                       volume -= 5;
                                     }
-                                    SoundGenerator.setVolume(volume);
+                                    SoundGenerator.setVolume(volume/100);
                                   });
                                 },
                                 child: ReusableContainerForButtons(
