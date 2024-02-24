@@ -81,7 +81,6 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
     _headsetPlugin.getCurrentState.then((val) {
       setState(() {
         _headsetState = val;
-
         WidgetsBinding.instance.addPostFrameCallback((_) {
           // _checkAndShowAlert();
         });
@@ -120,6 +119,8 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
     //Force update for one time
     SoundGenerator.refreshOneCycleData();
     SoundGenerator.setWaveType(waveTypes.SINUSOIDAL);
+    SoundGenerator.setFrequency(0);
+    SoundGenerator.setVolume(0);
   }
 
   @override
