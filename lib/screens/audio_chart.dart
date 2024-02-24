@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freq_fit/constants.dart';
 import 'package:freq_fit/providers/audio_points.dart';
 import 'package:freq_fit/widgets/app_bar.dart';
+import 'package:freq_fit/widgets/button_for_save_and_finish.dart';
 import 'package:freq_fit/widgets/reusable_container_for_buttons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -40,7 +41,7 @@ class AudioChartScreen extends ConsumerWidget {
                   colour: kPureWhiteColor,
                   containerChild: Center(
                       child: Text(
-                    'Patient Name',
+                    'Patient 1',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   )),
                 ),
@@ -111,56 +112,58 @@ class AudioChartScreen extends ConsumerWidget {
           ),
           Expanded(
             flex: 2,
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: ReusableContainerForButtons(
-                // padding: EdgeInsets.symmetric(horizontal: 10),
-                width: double.infinity,
-                colour: kPureWhiteColor,
-                containerChild: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextField(
-                    focusNode: focusNode,
-                    decoration: InputDecoration(
-                      focusColor: kNavyBlueColor,
-                      hintText: 'Doctor\'s Remark',
-                      hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: kNavyBlueColor),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Row(
+                
+                children: [
+                  Expanded(
+                    flex: 15,
+                    child: Card(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      // margin: EdgeInsets.symmetric(horizontal: 30),
+                      child: ReusableContainerForButtons(
+                        // padding: EdgeInsets.symmetric(horizontal: 10),
+                        width: double.infinity,
+                        colour: kPureWhiteColor,
+                        containerChild: Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextField(
+                            focusNode: focusNode,
+                            decoration: InputDecoration(
+                              focusColor: kNavyBlueColor,
+                              hintText: 'Doctor\'s Remark',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: kNavyBlueColor),
+                              border: InputBorder.none,
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 16),
+                            ),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ),
                     ),
-
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    // Additional properties for TextField, such as onChanged, controller, etc.
                   ),
-                ),
+                  Spacer(),
+                  Expanded(
+                    flex: 5,
+                    child: ReusableContainerForButtons(
+                      containerChild: Text('Save',textAlign: TextAlign.center,style: TextStyle(color: kPureWhiteColor, ),),
+                      padding: EdgeInsets.all(12),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
 
-          // Expanded(
-          //   child: Card(
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.all(Radius.circular(20))),
-          //     margin: EdgeInsets.symmetric(horizontal: 30),
-          //     child: ReusableContainerForButtons(
-          //       padding: EdgeInsets.symmetric(horizontal: 10),
-          //       width: double.infinity,
-          //       colour: kPureWhiteColor,
-          //       containerChild: Text(
-          //         'Doctor\'s Remark',
-          //         // textAlign: Text,
-          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Spacer()
         ],
       ),

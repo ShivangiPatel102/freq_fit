@@ -32,7 +32,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
 
   // Define variables for frequency, decibel, and other state values
   bool isPlaying = false;
-  double frequency = 200;
+  double frequency = 250;
   int balance = 0;
   double volume = 0;
   waveTypes waveType = waveTypes.SINUSOIDAL;
@@ -51,12 +51,11 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
       if (finishButtonPressCount == 1) {
         // show_alert_continue_with_next_ear(context);
         show_alert_continue_with_next_ear(context, () {
-          
-            setState(() {
-               balance = 1;
-              print(balance);
-            });
-          
+          setState(() {
+            balance = 1;
+            frequency = 250;
+            print(balance);
+          });
         });
       } else if (finishButtonPressCount > 1) {
         show_finish_alert(context);
@@ -83,7 +82,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
         _headsetState = val;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          // _checkAndShowAlert();
+          _checkAndShowAlert();
         });
       });
     });
@@ -92,14 +91,12 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
       setState(() {
         _headsetState = val;
         if (_headsetState != HeadsetState.CONNECT) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            show_Alert_Check_Headphone(context);
-          });
+          WidgetsBinding.instance.addPostFrameCallback((_) {});
         } else {
           Navigator.pop(context);
         }
 
-        // _checkAndShowAlert();
+        _checkAndShowAlert();
       });
     });
 
@@ -234,15 +231,11 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  if (frequency < 1000) {
-                                    frequency += 200;
-                                  } else if (frequency >= 1000 &&
-                                      frequency < 2000) {
-                                    frequency += 1000;
-                                  } else if (frequency >= 2000 &&
-                                      frequency < 12000) {
-                                    frequency += 2000;
+                                  if (frequency < 8000) {
+                                    frequency += frequency;
                                   }
+                                  // Ensure the frequency does not exceed the maximum limit
+                                  frequency = frequency.clamp(250, 8000);
                                   SoundGenerator.setFrequency(frequency);
                                 });
                               },
@@ -261,23 +254,34 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                           Expanded(
                               flex: 3,
                               child: GestureDetector(
+                                // onTap: () {
+                                //   setState(() {
+                                //     if (frequency > 2000 &&
+                                //         frequency <= 12000) {
+                                //       frequency -= 2000;
+                                //     } else if (frequency > 1000 &&
+                                //         frequency <= 2000) {
+                                //       frequency -= 1000;
+                                //     } else if (frequency > 200 &&
+                                //         frequency <= 1000) {
+                                //       frequency -= 200;
+                                //     } else if (frequency == 12000) {
+                                //       isFinishButtonActive = true;
+                                //     }
+                                //     SoundGenerator.setFrequency(frequency);
+                                //   });
+                                // },
                                 onTap: () {
                                   setState(() {
-                                    if (frequency > 2000 &&
-                                        frequency <= 12000) {
-                                      frequency -= 2000;
-                                    } else if (frequency > 1000 &&
-                                        frequency <= 2000) {
-                                      frequency -= 1000;
-                                    } else if (frequency > 200 &&
-                                        frequency <= 1000) {
-                                      frequency -= 200;
-                                    } else if (frequency == 12000) {
-                                      isFinishButtonActive = true;
+                                    if (frequency > 250) {
+                                      frequency -= frequency / 2;
                                     }
+                                    // Ensure the frequency does not go below the minimum limit
+                                    frequency = frequency.clamp(250, 8000);
                                     SoundGenerator.setFrequency(frequency);
                                   });
                                 },
+
                                 child: ReusableContainerForButtons(
                                   width: 60,
                                   containerChild: Center(
@@ -290,6 +294,9 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                               )),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     // Stop and Start Button
                     Expanded(
@@ -307,6 +314,7 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                               SoundGenerator.stop();
                               isPlaying = false;
                               buttonText = 'Start';
+
                               // AudioData audio = AudioData(freq: frequency, db: volume);
                               // if(balance==0)
                               // {
@@ -332,6 +340,9 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                                 vertical: 28, horizontal: 0),
                           ),
                         )),
+                    SizedBox(
+                      width: 10,
+                    ),
                     // Decibel Buttons
                     Expanded(
                       flex: 3,
@@ -415,6 +426,9 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                             } else if (balance == 1) {
                               rightEar.add(audio);
                             }
+                            setState(() {
+                              volume = 0;
+                            });
                           },
                         ),
                       )),
@@ -429,12 +443,6 @@ class _PureToneScreenState extends ConsumerState<PureToneScreen> {
                           title: 'Finish',
                           onPressed: () {
                             _handleFinishButtonPress();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => AudioChartScreen(),
-                            //   ),
-                            // );
                           },
                         ),
                       )),
