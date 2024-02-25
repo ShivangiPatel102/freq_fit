@@ -8,6 +8,8 @@ FreqFit is an innovative application dedicated to detecting hearing losses with 
 <li><a href="#Problem-we-are-focusing-on">Problem we are focusing on</a></li>
 <li><a href="#Tech-Stack">Tech Stack</a></li>
 <li><a href="#UN-SDGs">UN SDGs</a></li>
+<li><a href="#Screenshots">Screenshots</a></li>
+<li><a href="#Video">Video</a></li>
 
 ## Abstract
 
@@ -21,18 +23,48 @@ The FreqFit app emerges as a transformative solution, supporting the expensive a
 
 ## Tech Stack
 
-**Frontend:** Flutter
-**Backend:** Firebase
+<p float="left">
+ 
 
-## Getting Started
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg?raw=true" width="128" style="margin:125px" />
+&nbsp; &nbsp;&nbsp; &nbsp;
 
-This project is a starting point for a Flutter application.
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg?raw=true" width="128" style="margin:125px" />
+ &nbsp; &nbsp;&nbsp; &nbsp;
+ 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg?raw=true" width="128" style="margin:125px" />
+</p>
+          
+          
 
-A few resources to get you started if this is your first Flutter project:
+<!-- GOALS -->
+## UN-SDGs
+Good Health and Well being              |       Industry innovation and infrastructure       
+:-------------------------:|:-------------------------:
+![](https://developers.google.com/community/images/gdsc-solution-challenge/goal-03_480.png?raw=true)|![](https://developers.google.com/community/images/gdsc-solution-challenge/goal-09_480.png?raw=true)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+<div align="center">
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/21.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/22.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/23.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/24.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+</div>
+
+<div align="center">
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/25.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/26.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/27.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/28.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+</div>
+<div align="center">
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/29.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/30.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/31.jpeg?raw=true" alt="Image 3" width="200" height="412" />
+</div>
+
+
+## Video
+https://youtu.be/m8ZAQLTKVX0
