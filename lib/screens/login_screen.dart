@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freq_fit/constants.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
+  //variables
+  late String email;
+  late String password;
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +43,9 @@ class Login extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  onChanged: (value) {
+                    email = value;
+                  },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       hintText: 'E-mail Address', hintStyle: small),
@@ -50,6 +58,9 @@ class Login extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  onChanged: (value) {
+                    password = value;
+                  },
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Password',
@@ -84,13 +95,22 @@ class Login extends StatelessWidget {
             Expanded(
               flex: 1,
               child: GestureDetector(
-                onTap: () {
-                  // Add a 2-second delay using Future.delayed
-                  Future.delayed(Duration(seconds: 2), () {
-                    // Code to be executed after the delay
-                    // For example, you can navigate to another screen
-                    Navigator.pushNamed(context, '/home');
-                  });
+                onTap: ()async {
+                   try {
+                  // setState(() {
+                  //   showSpinner = true;
+                  // });
+                  final user = await _auth.signInWithEmailAndPassword(
+                      email: email, password: password);
+                  if (user != null) {
+                    Navigator.pushReplacementNamed(context, '/home');
+                  }
+                  // setState(() {
+                  //   showSpinner = false;
+                  // });
+                } catch (e) {
+                  print(e);
+                }
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 25),

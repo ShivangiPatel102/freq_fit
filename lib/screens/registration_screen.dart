@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freq_fit/services/authentication.dart';
 
 class RegisterScreen extends StatelessWidget {
   late String email;
@@ -105,8 +106,18 @@ class RegisterScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: GestureDetector(
-                onTap: (){
-                  
+                onTap: () async {
+                  try {
+                  final newUser = Authentication.registerUser(email, password);
+                  if (newUser != null) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/home',
+                    );
+                  }
+                } catch (e) {
+                  print(e);
+                }
                 },
                 child: Container(
                   padding: EdgeInsets.all(0),

@@ -9,13 +9,14 @@ import 'package:freq_fit/screens/pta_test_screen.dart';
 import 'package:freq_fit/screens/pure_tone_screen.dart';
 import 'package:freq_fit/screens/registration_screen.dart';
 import 'package:freq_fit/screens/splash_screen.dart';
+import 'package:freq_fit/widgets/auth_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print('firebase initialised');
+
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -30,13 +31,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(scaffoldBackgroundColor: Color(0xffefeeee)),
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashScreen(),
-        '/login': (context) => Login(),
+        '/': (context) => AuthenticationWrapper(),
+        '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/home': (context) => HomeScreen(),
         '/ptaTest': (context) => PtaTestScreen(),
         '/pureTone': (context) => PureToneScreen(),
-        // '/ptaResults': (context) => PtaResultsScreen(),
+        
       },
     );
   }

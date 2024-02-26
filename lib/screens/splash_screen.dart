@@ -9,40 +9,58 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    
-    Future.delayed(const Duration(seconds: 2), (){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> const Login(),),);
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) =>  LoginScreen(),
+        ),
+      );
     });
   }
-  
+
   // @override
   // void dispose(){
   //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
   //   super.dispose();
-    
+
   // }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/icons/logo.png', ),
+          Image.asset(
+            'assets/icons/logo.png',
+          ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Freq',style: TextStyle(fontFamily: 'Blinker',fontSize: 50,fontWeight: FontWeight.w700,color: Color(0xff28334A))),
-              Text('Fit',style: TextStyle(fontFamily: 'Blinker',fontSize: 50,fontWeight: FontWeight.w700,color: Color(0xffDC5049)))
+              Text('Freq',
+                  style: TextStyle(
+                      fontFamily: 'Blinker',
+                      fontSize: 50,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff28334A))),
+              Text('Fit',
+                  style: TextStyle(
+                      fontFamily: 'Blinker',
+                      fontSize: 50,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xffDC5049)))
             ],
-          
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
