@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:freq_fit/constants.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -16,18 +18,20 @@ class MyDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(Icons.arrow_back),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.arrow_back),
+                  ),
                 ),
                 const Text('FreqFit',
                     style: TextStyle(
                         fontFamily: 'Blinker',
-                        fontSize: 50,
+                        fontSize: 40,
                         fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(40, 71, 74, 1))),
+                        color: kNavyBlueColor)),
               ],
             ),
           ),

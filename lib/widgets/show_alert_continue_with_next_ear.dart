@@ -41,7 +41,6 @@ void show_alert_continue_with_next_ear(
                     onTap: () {
                       Navigator.pop(context);
                       onContinue();
-                      
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -70,7 +69,12 @@ void show_alert_continue_with_next_ear(
                 Expanded(
                   flex: 2,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AudioChartScreen()));
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         color: kWhiteWidgetColor,
