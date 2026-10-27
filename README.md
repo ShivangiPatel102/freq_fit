@@ -31,6 +31,12 @@ flutter build web
 - Search history, reopen sessions, copy a plain-text/CSV-style report, or delete after confirmation.
 - Save a partial session after recording at least one response; it is explicitly marked as partial.
 
+## Clinical observations engine
+
+Open **Checks → Review a calibrated audiogram** for a separate adult clinician-support prototype. Paste numeric CSV from external calibrated dB HL air-conduction measurements, enter an age and source reference, and confirm calibration/reliability. It reports individual-threshold bands, PTA3, ear differences, low/high comparison heuristics, missing evidence, and explicit interpretation limits. Every observation has a rule ID and evidence. Clinical reports can be copied but are not stored in listening-session history. Editing any input invalidates the report.
+
+The engine refuses clinical calculations on dBFS/unknown units or failed provenance gates. It is not clinically validated and does not diagnose disease, hearing-loss type, or referral need. See [CLINICAL_RULES.md](CLINICAL_RULES.md) for the complete rule registry, sources, input contract and limitations.
+
 ## Measurement boundaries
 
 This app is an **uncalibrated listening exploration**, not a medical audiometer. dBFS measures relative digital amplitude; it does not measure dB HL or dB SPL. Device volume, headphone sensitivity, signal processing, and ambient sound all influence what is heard. FreqFit does not diagnose or classify hearing loss, automatically determine clinical thresholds, or claim clinical accuracy. Physical sound output has not been measured.
@@ -46,6 +52,8 @@ The old Firebase-backed login and provider implementation have been replaced. Ex
 ## Structure
 
 - `lib/core/session.dart`: session model, local persistence, and date formatting.
+- `lib/core/clinical_rules.dart`: clinical input contract, strict CSV parser, versioned deterministic observations.
+- `lib/ui/clinical_review.dart`: calibrated-audiogram entry, provenance gates, report, dB HL plot and text table.
 - `lib/core/tone.dart`: stereo PCM WAV synthesis and audio player lifecycle.
 - `lib/ui/workspace.dart`: overview, checks, searchable history, reports, and guide.
 - `lib/ui/check_screen.dart`: preparation, listening, review, and save flow.

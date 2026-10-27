@@ -32,3 +32,7 @@ This rebuild makes the project runnable as a local personal exploration tool. It
 5. **Longitudinal interpretation:** record equipment and environmental metadata before offering cross-session comparisons. Different hardware/settings make raw levels incomparable.
 6. **Accessibility validation:** keyboard, screen reader, large-text, and hearing-impaired usability studies. A text response table accompanies the chart; assistive-technology testing remains to be done.
 7. **Larger scope:** speech and bone-conduction assessments require their own hardware/protocol decisions; an AI assistant would not fix the measurement gaps above.
+
+## Clinical review addition
+
+A separate adult calibrated-audiogram review screen now accepts pasted numeric CSV, enforces provenance/measurement gates, and runs a versioned deterministic rules engine. It reports threshold bands, PTA3, ear differences, a clearly labelled low/high heuristic, missing evidence and interpretation limits. It does not consume the app’s dBFS recordings. Clinical inputs are transient; reports can be copied. See [CLINICAL_RULES.md](CLINICAL_RULES.md) for the rule registry and remaining validation requirements.

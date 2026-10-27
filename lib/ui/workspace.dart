@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../core/session.dart';
 import 'components.dart';
 import 'check_screen.dart';
+import 'clinical_review.dart';
 
 class Workspace extends StatefulWidget {
   final SessionStore store;
@@ -396,6 +397,35 @@ class _WorkspaceState extends State<Workspace> {
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         intro('MAKE TIME TO LISTEN', 'Find your starting point.',
             'Get familiar with a tone, or explore both ears.'),
+        Panel(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            const Icon(Icons.fact_check_outlined, color: purple, size: 30),
+            const SizedBox(width: 14),
+            Expanded(child: heading('Clinical observations'))
+          ]),
+          const SizedBox(height: 12),
+          label(
+              'Review an external calibrated adult audiogram. Get transparent calculations, evidence, and data-quality checks for clinician review.',
+              size: 15,
+              color: muted),
+          const SizedBox(height: 20),
+          FilledButton.icon(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (_) => const ClinicalReview())),
+              icon: const Icon(Icons.arrow_forward, size: 18),
+              iconAlignment: IconAlignment.end,
+              label: const Text('Review a calibrated audiogram')),
+          const SizedBox(height: 12),
+          label(
+              'Separate from FreqFit’s uncalibrated dBFS checks. Not a diagnosis.',
+              size: 12,
+              color: muted),
+        ])),
+        const SizedBox(height: 20),
         Panel(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
