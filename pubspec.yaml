@@ -1,60 +1,26 @@
 name: freq_fit
-description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-version: 1.0.0+1
-
+description: A thoughtful workspace for exploratory hearing checks.
+publish_to: 'none'
+version: 2.0.0+2
 environment:
-  sdk: '>=3.2.4 <4.0.0'
-
-
+  sdk: '>=3.5.0 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter
-
-
-# my dependancies
-  cupertino_icons: ^1.0.2
-  toggle_switch: ^2.1.0
-  font_awesome_flutter: ^10.7.0
-  sound_generator: ^0.0.9
-  headset_connection_event: ^3.1.0
-  syncfusion_flutter_charts: ^24.2.6
-  flutter_riverpod: ^2.4.9
-  riverpod: ^2.4.9
-  firebase_core: ^2.25.4
-  firebase_auth: ^4.17.5
-  cloud_firestore: ^4.15.5
-
-
+  audioplayers: ^6.8.1
+  shared_preferences: ^2.5.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-
-  flutter_lints: ^3.0.1
-
+  flutter_lints: ^6.0.0
 flutter:
-  assets:
-    - assets/icons/
+  uses-material-design: true
   fonts:
     - family: Blinker
       fonts:
-        - asset: assets/fonts/Blinker-Black.ttf
         - asset: assets/fonts/Blinker-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Blinker-SemiBold.ttf
+          weight: 600
         - asset: assets/fonts/Blinker-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Blinker-Light.ttf
-          weight: 100
-    - family: Rubik
-      fonts:
-        - asset: assets/fonts/Rubik-Black.ttf
-        - asset: assets/fonts/Rubik-Medium.ttf
-          weight: 400
-
-
-  uses-material-design: true
-

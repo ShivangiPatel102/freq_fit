@@ -1,44 +1,62 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freq_fit/firebase_options.dart';
-import 'package:freq_fit/screens/home_screen.dart';
-import 'package:freq_fit/screens/login_screen.dart';
-// import 'package:freq_fit/screens/pta_results_screen.dart';
-import 'package:freq_fit/screens/pta_test_screen.dart';
-import 'package:freq_fit/screens/pure_tone_screen.dart';
-import 'package:freq_fit/screens/registration_screen.dart';
-import 'package:freq_fit/screens/splash_screen.dart';
-import 'package:freq_fit/widgets/auth_wrapper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'core/session.dart';
+import 'ui/workspace.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  runApp(ProviderScope(child: const MyApp()));
+  try {
+    final preferences = await SharedPreferences.getInstance();
+    runApp(MyApp(store: SessionStore(preferences)));
+  } catch (_) {
+    runApp(const MaterialApp(
+        home: Scaffold(
+            body: Center(
+                child: Text(
+                    'Local storage is unavailable. Enable storage and restart FreqFit.')))));
+  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+  final SessionStore store;
+  const MyApp({super.key, required this.store});
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      theme: ThemeData(scaffoldBackgroundColor: Color(0xffefeeee)),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => AuthenticationWrapper(),
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-        '/home': (context) => HomeScreen(),
-        '/ptaTest': (context) => PtaTestScreen(),
-        '/pureTone': (context) => PureToneScreen(),
-        
-      },
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'FreqFit · A little clarity, a better connection',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          fontFamily: 'Blinker',
+          scaffoldBackgroundColor: const Color(0xFFF6F7F9),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF5462D6),
+              primary: const Color(0xFF5462D6),
+              surface: Colors.white),
+          textTheme: ThemeData.light().textTheme.apply(
+              fontFamily: 'Blinker',
+              bodyColor: const Color(0xFF252940),
+              displayColor: const Color(0xFF252940)),
+          filledButtonTheme: FilledButtonThemeData(
+              style: FilledButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)))),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+                  side: const BorderSide(color: Color(0xFFE1E4ED)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)))),
+          inputDecorationTheme: InputDecorationTheme(
+              filled: true,
+              fillColor: const Color(0xFFF6F7FA),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none),
+              contentPadding: const EdgeInsets.all(18)),
+        ),
+        home: Workspace(store: store),
+      );
 }

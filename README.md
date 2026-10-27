@@ -1,110 +1,66 @@
 # FreqFit
 
-FreqFit is an innovative application dedicated to detecting hearing losses with precision through Pure Tone Audiometry (PTA) testing. Leveraging cutting-edge technology, FreqFit provides a user-friendly platform for comprehensive auditory assessments, empowering medical personnels to monitor and address potential hearing impairments effectively.
+A small, thoughtful Flutter workspace for exploring responses to sound. Rebuilt from the original hackathon app on `codex/freqfit-rebuild`.
 
-## Table of Contents
+## Run
 
-<li><a href="#Abstract">Abstract</a></li>
-<li><a href="#Problem-we-are-focusing-on">Problem we are focusing on</a></li>
-<li><a href="#Tech-Stack">Tech Stack</a></li>
-<li><a href="#UN-SDGs">UN SDGs</a></li>
-<li><a href="#How-our-app-completes-these-Goals">How our app completes these Goals?</a></li>
-<li><a href="#How-to-run-our-application">How to run our application ?</a></li>
-<li><a href="#Screenshots">Screenshots</a></li>
-<li><a href="#Video">Video</a></li>
-<li><a href="#Further-Enhancements">Further Enhancements & Upcoming Features</a></li>
+Use Flutter 3.47.8 / Dart 3.13.7, the versions verified for this rebuild. The checked-in dependency lock targets Flutter 3.47+ and Dart 3.13+.
 
-## Abstract
+```sh
+flutter pub get
+flutter run -d chrome
+```
 
-FreqFit revolutionizes the landscape of auditory health with its advanced Pure Tone Audiometry (PTA) testing application. Designed for precise detection of hearing losses, FreqFit offers a user-friendly interface that combines technological sophistication with accessibility, enabling medical personnel to conduct comprehensive auditory assessments effortlessly. This innovative tool empowers individuals to proactively promotes early detection and intervention for a better quality of life.It facilitates remote testing, making it especially beneficial for healthcare outreach programs in remote areas.
+No Firebase project, account, API key, or backend setup is needed. The web app is the verified target for this rebuild; the native platform shells remain in the repository and need separate device testing and toolchain updates before distribution.
 
-## Problem we are focusing on
+```sh
+flutter analyze
+flutter test
+flutter build web
+```
 
-FreqFit addresses the critical issue of undetected hearing problems by providing a convenient and cost-effective solution. Hearing impairments, when left undiagnosed, can lead to social isolation, communication challenges, and adverse impacts on mental well-being. The absence of early detection exacerbates these issues. Traditional digital audiometers, which are essential for thorough testing, can be costly and are often unavailable in many locations, particularly in remote areas.
+## What you can do
 
-The FreqFit app emerges as a transformative solution, supporting the expensive audiometric equipment by being an alternative. By leveraging the ubiquity of smartphones and utilizing the device as a portable audiometer, FreqFit significantly reduces the cost barriers associated with hearing assessments. This innovation ensures wider accessibility, particularly in regions where the scarcity of proper equipment hinders early detection and intervention. FreqFit not only addresses the challenge of hearing loss but also tackles the barriers to testing, enhancing global accessibility to comprehensive auditory health assessments.
+- Use a responsive desktop workspace or compact bottom navigation.
+- Read preparation guidance and try a practice tone without saving a session.
+- Create a named check after confirming headphones, surroundings, and measurement limitations.
+- Play one-second, stereo-isolated tones at 250, 500, 1,000, 2,000, 4,000, and 8,000 Hz.
+- Adjust digital amplitude from −60 to −12 dBFS in 3 dB steps. Each pulse has a 20 ms fade at both ends.
+- Record a response only after playing a tone at the current setting. Changing ear, frequency, or level resets that requirement.
+- Review each ear on a response-level plot, add notes, and save locally.
+- Search history, reopen sessions, copy a plain-text/CSV-style report, or delete after confirmation.
+- Save a partial session after recording at least one response; it is explicitly marked as partial.
 
-## Tech Stack
+## Clinical observations engine
 
-<p float="left">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg?raw=true" width="128" style="margin:125px" />
-&nbsp; &nbsp;&nbsp; &nbsp;
+Open **Checks → Review a calibrated audiogram** for a separate adult clinician-support prototype. Paste numeric CSV from external calibrated dB HL air-conduction measurements, enter an age and source reference, and confirm calibration/reliability. It reports individual-threshold bands, PTA3, ear differences, low/high comparison heuristics, missing evidence, and explicit interpretation limits. Every observation has a rule ID and evidence. Clinical reports can be copied but are not stored in listening-session history. Editing any input invalidates the report.
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg?raw=true" width="128" style="margin:125px" />
- &nbsp; &nbsp;&nbsp; &nbsp;
- 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg?raw=true" width="128" style="margin:125px" />
-</p>
-          
-<!-- GOALS -->
-## UN-SDGs
+The engine refuses clinical calculations on dBFS/unknown units or failed provenance gates. It is not clinically validated and does not diagnose disease, hearing-loss type, or referral need. See [CLINICAL_RULES.md](CLINICAL_RULES.md) for the complete rule registry, sources, input contract and limitations.
 
-Good Health and Well being              |       Industry innovation and infrastructure       
-:-------------------------:|:-------------------------:
-![](https://developers.google.com/community/images/gdsc-solution-challenge/goal-03_480.png?raw=true)|![](https://developers.google.com/community/images/gdsc-solution-challenge/goal-09_480.png?raw=true)
+## Measurement boundaries
 
-## How our app completes these Goals
+This app is an **uncalibrated listening exploration**, not a medical audiometer. dBFS measures relative digital amplitude; it does not measure dB HL or dB SPL. Device volume, headphone sensitivity, signal processing, and ambient sound all influence what is heard. FreqFit does not diagnose or classify hearing loss, automatically determine clinical thresholds, or claim clinical accuracy. Physical sound output has not been measured.
 
-We have chosen United Nations Sustainable Development Goals (SDGs) for the Digital Audiometer App are 
-Goal 3: "Good Health and Wellbeing" and Goal 9: "Industry, Innovation, and Infrastructure."
- 
-Goal 3 is aptly addressed as the app focuses on early detection of hearing issues, aligning with the SDG's objective of ensuring healthy lives and promoting well-being for all. By providing timely interventions, the app contributes directly to reducing the global burden of diseases. 
+Preparation and follow-up copy is informed by [ASHA adult hearing screening guidance](https://www.asha.org/practice-portal/professional-issues/adult-hearing-screening/) and [NIDCD sudden hearing loss guidance](https://www.nidcd.nih.gov/health/sudden-deafness). Clinical use would require calibrated transducers and equipment, validated protocols, and professional review.
 
-Goal 9 is pertinent due to the app's innovative approach, leveraging Google technologies to transform healthcare infrastructure. It aligns with the SDG's vision of fostering innovation, building resilient infrastructure, and promoting inclusive and sustainable industrialization. 
+## Storage and privacy
 
-The inspiration behind these selections lies in the app's mission to address the global challenge of deafness through accessible and innovative solutions, aligning seamlessly with the broader goals of the UN's SDGs.
+Sessions are JSON in `shared_preferences` under `freqfit.sessions.v2`. There is no cloud sync or analytics. Use a nickname/session label rather than identifying patient information. Local preferences are **not encrypted clinical storage**, and clearing browser/app data removes history. Clipboard reports are user initiated and contain the entered session name and notes. Corrupt stored history is preserved and surfaced as an error rather than overwritten.
 
+The old Firebase-backed login and provider implementation have been replaced. Existing Firebase accounts and cloud records are not migrated or accessed. The original implementation remains in Git history on `main`.
 
-## How to run our application
+## Structure
 
- ### Prerequisites/Requirements
- Make sure you have the following installed on your machine:
- 
- - **Flutter SDK:** Install Flutter by following the [official installation guide](https://flutter.dev/docs/get-started/install).
- - **Dart SDK:** Install Dart by following the [official installation guide](https://dart.dev/get-dart).
- - Android Studio/VS Code.
- - Smartphone.
+- `lib/core/session.dart`: session model, local persistence, and date formatting.
+- `lib/core/clinical_rules.dart`: clinical input contract, strict CSV parser, versioned deterministic observations.
+- `lib/ui/clinical_review.dart`: calibrated-audiogram entry, provenance gates, report, dB HL plot and text table.
+- `lib/core/tone.dart`: stereo PCM WAV synthesis and audio player lifecycle.
+- `lib/ui/workspace.dart`: overview, checks, searchable history, reports, and guide.
+- `lib/ui/check_screen.dart`: preparation, listening, review, and save flow.
+- `lib/ui/components.dart`: visual primitives, waveform illustration, and response chart.
 
- ### Getting Started
- 1. **Clone the repository:**
-   git clone https://github.com/your-username/flutter-app.git](https://github.com/ShivangiPatel102/freq_fit.git
+## Verification
 
- 2. **Navigate to the project folder:**
-    cd freq-fit
-    
- 3. **Install dependencies:**
-    flutter pub get
-    
- 4. **Run the app:**
-    flutter run
+Tests cover desktop/mobile navigation and layout, the complete 12-response flow using an injected audio fake, local persistence/reload/deletion, corrupt storage protection, and generated WAV channel isolation/amplitude/fades. Audio unit tests verify the generated samples; they do not validate acoustic output through hardware. Browser visual checks cover the rendered app. Native device builds and clinical validation remain outstanding.
 
-## Screenshots
-
-<div align="center">
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/21.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/22.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/23.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/24.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-</div>
-
-<div align="center">
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/25.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/26.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/27.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/28.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-</div>
-<div align="center">
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/29.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/30.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-    <img src="https://github.com/AyushSolanki-17/StaticServer/blob/main/SolutionChallenge/31.jpeg?raw=true" alt="Image 3" width="200" height="412" />
-</div>
-
-## Video
-https://youtu.be/m8ZAQLTKVX0
-
-## Further Enhancements
-
-- New assessments like bone conduction and speech tests will enhance diagnostic precision. 
-- Introducing patient management features ensures seamless record-keeping and follow-up. - Ongoing UI refinement prioritises user experience, fostering accessibility. 
-- Addressing communication challenges during assessments, we plan intuitive alternatives beyond raising hands, ensuring inclusivity.
-- AI Assistant to answer user’s queries.
+See [REBUILD_NOTES.md](REBUILD_NOTES.md) for the audit and remaining product work.
